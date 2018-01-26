@@ -8,9 +8,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * Entity\Page
  *
- * @ORM\Table(name="pages")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PageRepository")
- * @ORM\HasLifecycleCallbacks
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\DiscriminatorMap({"page" = "Page"})
  */
 class Page extends BaseEntity
 {
@@ -24,27 +25,27 @@ class Page extends BaseEntity
     /**
      * @var string
      *
-     * @Gedmo\Slug(fields={"name"})
-     * @ORM\Column(name="slug", type="string", length=125)
+     * @Gedmo\Slug(fields={"name"}, updatable=false)
+     * @ORM\Column(name="slug", type="string", length=125, unique=true)
      */
     protected $slug;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="content", type="text", nullable=true)
      */
     protected $content;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="raw_content", type="text", nullable=true)
      */
     protected $rawContent;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="content_formatter", type="string", nullable=true)
      */
@@ -55,9 +56,9 @@ class Page extends BaseEntity
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -65,7 +66,7 @@ class Page extends BaseEntity
     /**
      * @param string $name
      */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -73,7 +74,7 @@ class Page extends BaseEntity
     /**
      * @return string
      */
-    public function getSlug()
+    public function getSlug(): string
     {
         return $this->slug;
     }
@@ -81,62 +82,62 @@ class Page extends BaseEntity
     /**
      * @param string $slug
      */
-    public function setSlug(string $slug)
+    public function setSlug(string $slug): void
     {
         $this->slug = $slug;
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getContent()
+    public function getContent(): ?string
     {
         return $this->content;
     }
 
     /**
-     * @param string $content
+     * @param null|string $content
      */
-    public function setContent(string $content)
+    public function setContent(?string $content): void
     {
         $this->content = $content;
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getRawContent()
+    public function getRawContent(): ?string
     {
         return $this->rawContent;
     }
 
     /**
-     * @param string $rawContent
+     * @param null|string $rawContent
      */
-    public function setRawContent(string $rawContent)
+    public function setRawContent(?string $rawContent): void
     {
         $this->rawContent = $rawContent;
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getContentFormatter()
+    public function getContentFormatter(): ?string
     {
         return $this->contentFormatter;
     }
 
     /**
-     * @param string $contentFormatter
+     * @param null|string $contentFormatter
      */
-    public function setContentFormatter(string $contentFormatter)
+    public function setContentFormatter(?string $contentFormatter): void
     {
         $this->contentFormatter = $contentFormatter;
     }
 
     function __toString()
     {
-        if (empty($this->getName())) {
+        if (empty($this->name)) {
             return 'Nová stránka';
         }
 

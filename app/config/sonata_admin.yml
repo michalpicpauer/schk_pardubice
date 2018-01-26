@@ -1,0 +1,54 @@
+sonata_admin:
+    title: SCHK Pardubice
+#    title_logo: images/logo.jpg
+    options:
+        html5_validate: true
+    templates:
+        layout: AppBundle::admin/standard_layout.html.twig
+#        list: AdminBundle:CRUD:base_list.html.twig
+#        user_block: SonataUserBundle:Admin/Core:user_block.html.twig
+    dashboard:
+#        blocks:
+#            -
+#                position: right
+#                type: admin.block.orders
+#            -
+#                position: left
+#                type: admin.block.contacts
+#            -
+#                position: right
+#                type: admin.block.users
+#            -
+#                position: left
+#                type: admin.block.ratings
+#            -
+#                position: left
+#                type: admin.block.phone_calls
+#        groups:
+#            admin.group.pages:
+#                label: CMS
+#                label_catalogue: AdminBundle
+#                icon: '<i class="fa fa-sitemap"></i>'
+#                items:
+#                    - admin.page
+#                roles:
+#                    - ROLE_CONTENT_MANAGER
+#
+#            admin.group.media:
+#                label: Media
+#                label_catalogue: AdminBundle
+#                icon: '<i class="fa fa-files-o"></i>'
+#                items:
+#                    - admin.media
+#                    - admin.gallery
+#                roles:
+#                    - ROLE_CONTENT_MANAGER
+#
+#            admin.group.user:
+#                label: Users
+#                label_catalogue: AdminBundle
+#                icon: '<i class="fa fa-users"></i>'
+#                items:
+#                    - admin.user
+#                roles:
+#                    - ROLE_ADMIN

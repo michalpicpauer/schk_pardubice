@@ -39,7 +39,7 @@ services:
         class: AppBundle\Admin\PageAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin.group.cms, label: Pages }
-        arguments: [null, EntityBundle\Entity\Page, null]
+        arguments: [null, AppBundle\Entity\Page, null]
         calls:
             - [ setTranslationDomain, [AppBundle]]
 
@@ -47,7 +47,7 @@ services:
         class: AppBundle\Admin\MediaAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin.group.media, label: Media }
-        arguments: [null, EntityBundle\Entity\Media,null , '@sonata.media.pool']
+        arguments: [null, AppBundle\Entity\Media,null , '@sonata.media.pool']
         calls:
             - [ setTranslationDomain, [AppBundle]]
 
@@ -55,7 +55,7 @@ services:
         class: AppBundle\Admin\GalleryAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin.group.media, label: Gallery }
-        arguments: [null, EntityBundle\Entity\Gallery,null , '@sonata.media.pool']
+        arguments: [null, AppBundle\Entity\Gallery,null , '@sonata.media.pool']
         calls:
             - [ setTranslationDomain, [AppBundle]]
 
@@ -63,6 +63,6 @@ services:
         class: AppBundle\Admin\UserAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin.group.user, label: Users }
-        arguments: [null, EntityBundle\Entity\User,null]
+        arguments: [null, AppBundle\Entity\User,null]
         calls:
             - [ setTranslationDomain, [AppBundle]]

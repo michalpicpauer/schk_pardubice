@@ -36,6 +36,7 @@ class AppKernel extends Kernel
 
             // And finally, the storage and SonataAdminBundle
             new Sonata\AdminBundle\SonataAdminBundle(),
+            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

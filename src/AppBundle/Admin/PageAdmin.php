@@ -28,17 +28,17 @@ class PageAdmin extends BaseAdmin
     {
 
         $form
-            ->with('form.page')
+            ->with('FormPage')
             ->add('name', TextType::class, [
-                'label' => 'form.name'
+                'label' => 'FormName'
             ])
             ->add('content', FormatterType::class, [
-                'label'            => 'form.content',
-                'required'         => false,
-                'event_dispatcher' => $form->getFormBuilder()->getEventDispatcher(),
-                'format_field'     => 'contentFormatter',
-                'source_field'     => 'rawContent',
-                'target_field'     => 'content',
+                'label'                  => 'FormContent',
+                'required'               => false,
+                'event_dispatcher'       => $form->getFormBuilder()->getEventDispatcher(),
+                'format_field'           => 'contentFormatter',
+                'source_field'           => 'rawContent',
+                'target_field'           => 'content',
                 'ckeditor_toolbar_icons' => $this->getCkEditorToolbarIcons()
             ])
             ->end();
@@ -47,10 +47,10 @@ class PageAdmin extends BaseAdmin
     protected function configureListFields(ListMapper $list)
     {
         $list
-            ->addIdentifier('name', null, ['label' => 'form.name'])
-            ->add('slug', null, ['label' => 'form.slug'])
-            ->add('created', null, ['label' => 'form.created'])
-            ->add('updated', null, ['label' => 'form.updated'])
+            ->addIdentifier('name', null, ['label' => 'FormName'])
+            ->add('slug', null, ['label' => 'FormSlug'])
+            ->add('created', null, ['label' => 'FormCreated'])
+            ->add('updated', null, ['label' => 'FormUpdated'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show'   => [],
@@ -63,8 +63,8 @@ class PageAdmin extends BaseAdmin
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
         $filter
-            ->add('name', null, ['label' => 'form.name'])
-            ->add('slug', null, ['label' => 'form.slug']);
+            ->add('name', null, ['label' => 'FromName'])
+            ->add('slug', null, ['label' => 'FormSlug']);
 
         parent::configureDatagridFilters($filter);
     }
@@ -72,10 +72,10 @@ class PageAdmin extends BaseAdmin
     protected function configureShowFields(ShowMapper $show)
     {
         $show
-            ->with('form.info', ['class' => 'col-md-8'])
-            ->add('name', null, ['label' => 'form.name'])
-            ->add('slug', null, ['label' => 'form.slug'])
-            ->add('content', 'html', ['label' => 'form.content'])
+            ->with('FormInfo', ['class' => 'col-md-8'])
+            ->add('name', null, ['label' => 'FormName'])
+            ->add('slug', null, ['label' => 'FormSlug'])
+            ->add('content', 'html', ['label' => 'FormContent'])
             ->end();
 
         parent::configureShowFields($show);

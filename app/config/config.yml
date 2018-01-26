@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: sonata_admin.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -37,6 +38,10 @@ framework:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    form_themes:
+        - 'SonataFormatterBundle:Form:formatter.html.twig'
+        - 'SonataMediaBundle:Form:media_widgets.html.twig'
+        - 'SonataCoreBundle:Form:datepicker.html.twig'
 
 # Doctrine Configuration
 doctrine:
@@ -64,6 +69,11 @@ swiftmailer:
     password: '%mailer_password%'
     spool: { type: memory }
 
+stof_doctrine_extensions:
+    orm:
+        default:
+            sluggable: true
+
 fos_user:
     db_driver:      orm # can be orm or odm
     firewall_name:  main
@@ -85,7 +95,7 @@ sonata_core:
             enabled: false
 
 sonata_user:
-    security_acl: true
+    security_acl: false
     manager_type: orm
     impersonating:
         route: sonata_admin_dashboard
@@ -103,6 +113,7 @@ sonata_block:
 
         sonata.block.service.text:
         sonata.block.service.rss:
+        sonata.formatter.block.formatter:
 
         # Some specific block from the SonataMediaBundle
         #sonata.media.block.media:
@@ -157,6 +168,16 @@ sonata_media:
                 small: { width: 150 , quality: 95}
                 normal: { width: 1024 , quality: 90}
                 big:   { width: 1920 , quality: 90}
+        pages:
+            providers:
+                - sonata.media.provider.dailymotion
+                - sonata.media.provider.youtube
+                - sonata.media.provider.image
+
+            formats:
+                small: { width: 150 , quality: 95}
+                normal: { width: 1024 , quality: 90}
+                big:   { width: 1920 , quality: 90}
 
     cdn:
         server:
@@ -188,28 +209,8 @@ sonata_news:
             template: 'SonataNewsBundle:Mail:comment_notification.txt.twig'
 
 sonata_formatter:
+    default_formatter: richhtml
     formatters:
-        markdown:
-            service: sonata.formatter.text.markdown
-            extensions:
-                - sonata.formatter.twig.control_flow
-                - sonata.formatter.twig.gist
-                - sonata.media.formatter.twig
-
-        text:
-            service: sonata.formatter.text.text
-            extensions:
-                - sonata.formatter.twig.control_flow
-                - sonata.formatter.twig.gist
-                - sonata.media.formatter.twig
-
-        rawhtml:
-            service: sonata.formatter.text.raw
-            extensions:
-                - sonata.formatter.twig.control_flow
-                - sonata.formatter.twig.gist
-                - sonata.media.formatter.twig
-
         richhtml:
             service: sonata.formatter.text.raw
             extensions:
@@ -217,50 +218,77 @@ sonata_formatter:
                 - sonata.formatter.twig.gist
                 - sonata.media.formatter.twig
 
-        twig:
-            service: sonata.formatter.text.twigengine
-            extensions: [] # Twig formatter cannot have extensions
-
 ivory_ck_editor:
+    plugins:
+        widget:
+            path:     '/bundles/app/js/ckeditor/plugins/widget/'
+            filename: 'plugin.js'
+        widgetselection:
+            path:     '/bundles/app/js/ckeditor/plugins/widgetselection/'
+            filename: 'plugin.js'
+        lineutils:
+            path:     '/bundles/app/js/ckeditor/plugins/lineutils/'
+            filename: 'plugin.js'
+        html5video:
+            path:     '/bundles/app/js/ckeditor/plugins/html5video/'
+            filename: 'plugin.js'
     default_config: default
     configs:
         default:
+            filebrowserBrowseRoute: admin_app_media_ckeditor_browser
+            filebrowserImageBrowseRoute: admin_app_media_ckeditor_browser
+            filebrowserImageBrowseRouteParameters:
+                provider: sonata.media.provider.image
+                context: page
+                hide_context: 1
+            filebrowserUploadRoute: admin_app_media_ckeditor_upload
+            filebrowserUploadRouteParameters:
+                provider: sonata.media.provider.file
+            filebrowserImageUploadRoute: admin_app_media_ckeditor_upload
+            filebrowserImageUploadRouteParameters:
+                provider: sonata.media.provider.image
+                context: default
+                hide_context: 1
+                format: big
+        pages:
             # default toolbar plus Format button
             toolbar:
             - [Bold, Italic, Underline, -, Cut, Copy, Paste, PasteText, PasteFromWord, -, Undo, Redo, -, NumberedList, BulletedList, -, Outdent, Indent, -, Blockquote, -, Image, Link, Unlink, Table]
             - [Format, Maximize, Source]
 
-            filebrowserBrowseRoute: admin_sonata_media_media_ckeditor_browser
-            filebrowserImageBrowseRoute: admin_sonata_media_media_ckeditor_browser
-            # Display images by default when clicking the image dialog browse button
+            filebrowserBrowseRoute: admin_app_media_ckeditor_browser
+            filebrowserImageBrowseRoute: admin_app_media_ckeditor_browser
             filebrowserImageBrowseRouteParameters:
                 provider: sonata.media.provider.image
-            filebrowserUploadRoute: admin_sonata_media_media_ckeditor_upload
+                context: page
+                hide_context: 1
+            filebrowserUploadRoute: admin_app_media_ckeditor_upload
             filebrowserUploadRouteParameters:
                 provider: sonata.media.provider.file
-            # Upload file as image when sending a file from the image dialog
-            filebrowserImageUploadRoute: admin_sonata_media_media_ckeditor_upload
+            filebrowserImageUploadRoute: admin_app_media_ckeditor_upload
             filebrowserImageUploadRouteParameters:
                 provider: sonata.media.provider.image
-                context: default # Optional, to upload in a custom context
-                format: big # Optional, media format or original size returned to editor
+                context: news
+                hide_context: 1
+                format: big
         news:
             # default toolbar plus Format button
             toolbar:
             - [Bold, Italic, Underline, -, Cut, Copy, Paste, PasteText, PasteFromWord, -, Undo, Redo, -, NumberedList, BulletedList, -, Outdent, Indent, -, Blockquote, -, Image, Link, Unlink, Table]
             - [Format, Maximize, Source]
 
-            filebrowserBrowseRoute: admin_sonata_media_media_ckeditor_browser
-            filebrowserImageBrowseRoute: admin_sonata_media_media_ckeditor_browser
-            # Display images by default when clicking the image dialog browse button
+            filebrowserBrowseRoute: admin_app_media_ckeditor_browser
+            filebrowserImageBrowseRoute: admin_app_media_ckeditor_browser
             filebrowserImageBrowseRouteParameters:
                 provider: sonata.media.provider.image
-            filebrowserUploadRoute: admin_sonata_media_media_ckeditor_upload
+                context: page
+                hide_context: 1
+            filebrowserUploadRoute: admin_app_media_ckeditor_upload
             filebrowserUploadRouteParameters:
                 provider: sonata.media.provider.file
-            # Upload file as image when sending a file from the image dialog
-            filebrowserImageUploadRoute: admin_sonata_media_media_ckeditor_upload
+            filebrowserImageUploadRoute: admin_app_media_ckeditor_upload
             filebrowserImageUploadRouteParameters:
                 provider: sonata.media.provider.image
-                context: news # Optional, to upload in a custom context
-                format: big # Optional, media format or original size returned to editor
+                context: news
+                hide_context: 1
+                format: big

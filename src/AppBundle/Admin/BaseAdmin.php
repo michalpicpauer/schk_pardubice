@@ -5,6 +5,8 @@ namespace AppBundle\Admin;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\CoreBundle\Form\Type\DateTimeRangePickerType;
+use Sonata\DoctrineORMAdminBundle\Filter\DateTimeRangeFilter;
 
 abstract class BaseAdmin extends AbstractAdmin
 {
@@ -57,13 +59,13 @@ abstract class BaseAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
         $filter
-            ->add('created', 'doctrine_orm_datetime_range', [
+            ->add('created', DateTimeRangeFilter::class, [
                 'label' => 'form.created',
-                'field_type' => 'sonata_type_datetime_range_picker'
+                'field_type' => DateTimeRangePickerType::class
             ])
-            ->add('updated', 'doctrine_orm_datetime_range', [
+            ->add('updated', DateTimeRangeFilter::class, [
                 'label' => 'form.updated',
-                'field_type' => 'sonata_type_datetime_range_picker'
+                'field_type' => DateTimeRangePickerType::class
             ]);
     }
 
