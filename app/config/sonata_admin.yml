@@ -24,31 +24,54 @@ sonata_admin:
 #            -
 #                position: left
 #                type: admin.block.phone_calls
-#        groups:
-#            admin.group.pages:
-#                label: CMS
-#                label_catalogue: AdminBundle
-#                icon: '<i class="fa fa-sitemap"></i>'
-#                items:
-#                    - admin.page
-#                roles:
-#                    - ROLE_CONTENT_MANAGER
-#
-#            admin.group.media:
-#                label: Media
-#                label_catalogue: AdminBundle
-#                icon: '<i class="fa fa-files-o"></i>'
-#                items:
-#                    - admin.media
-#                    - admin.gallery
-#                roles:
-#                    - ROLE_CONTENT_MANAGER
-#
-#            admin.group.user:
-#                label: Users
-#                label_catalogue: AdminBundle
-#                icon: '<i class="fa fa-users"></i>'
-#                items:
-#                    - admin.user
-#                roles:
-#                    - ROLE_ADMIN
+        groups:
+            admin.group.pages:
+                label: CMS
+                label_catalogue: AdminBundle
+                icon: '<i class="fa fa-sitemap"></i>'
+                items:
+                    - admin.page
+                    - admin.show
+                roles:
+                    - ROLE_ADMIN
+
+            admin.group.blog:
+                label: Blog
+                label_catalogue: ~
+                icon: '<i class="fa fa-newspaper-o"></i>'
+                items:
+                    - admin.post
+                    - admin.comment
+                roles:
+                    - ROLE_ADMIN
+
+            admin.group.classification:
+                label: Classification
+                label_catalogue: ~
+                icon: '<i class="fa fa-tags"></i>'
+                items:
+                    - admin.category
+                    - admin.collection
+                    - admin.tag
+                    - admin.context
+                roles:
+                    - ROLE_ADMIN
+
+            admin.group.media:
+                label: Media
+                label_catalogue: ~
+                icon: '<i class="fa fa-image"></i>'
+                items:
+                    - admin.media
+                    - admin.gallery
+                roles:
+                    - ROLE_ADMIN
+
+            admin.group.user:
+                label: Users
+                label_catalogue: ~
+                icon: '<i class="fa fa-users"></i>'
+                items:
+                    - admin.user
+                roles:
+                    - ROLE_ADMIN

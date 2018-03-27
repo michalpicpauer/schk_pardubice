@@ -1,0 +1,22 @@
+{% extends 'SonataAdminBundle:CRUD:action.html.twig' %}
+
+{% block title %}Select page type{% endblock %}
+
+{% block content %}
+    <div class="box box-success">
+        <div class="box-header">
+            <h3 class="box-title">
+                Select page type
+            </h3>
+        </div>
+        <div class="box-body">
+            <div class="list-group">
+                {% for type in admin.pageTypes %}
+                    <a href="{{ admin.generateUrl('create', {'page_type': type}) }}" class="list-group-item">
+                        {{ type }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

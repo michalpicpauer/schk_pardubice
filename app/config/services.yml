@@ -37,32 +37,98 @@ services:
     # Sonata Admin
     admin.page:
         class: AppBundle\Admin\PageAdmin
+        arguments: [null, AppBundle\Entity\Page, AppBundle:PageAdmin]
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin.group.cms, label: Pages }
+        calls:
+            - [ setTranslationDomain, [AppBundle]]
+            - [ setTemplate, ['create', 'AppBundle:admin/pages:select_page_type.html.twig']]
+
+    admin.show:
+        class: AppBundle\Admin\ShowAdmin
         arguments: [null, AppBundle\Entity\Page, null]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin.group.cms, label: Shows }
+        calls:
+            - [ setTranslationDomain, [AppBundle]]
+
+    admin.page_show:
+        class: AppBundle\Admin\ShowPageAdmin
+        arguments: [null, AppBundle\Entity\PageShow, null]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin.group.cms, label: PagesShows }
         calls:
             - [ setTranslationDomain, [AppBundle]]
 
     admin.media:
         class: AppBundle\Admin\MediaAdmin
+        arguments: [null, AppBundle\Entity\Media,null , '@sonata.media.pool']
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin.group.media, label: Media }
-        arguments: [null, AppBundle\Entity\Media,null , '@sonata.media.pool']
         calls:
-            - [ setTranslationDomain, [AppBundle]]
+            - [ setTranslationDomain, [SonataMediaBundle]]
 
     admin.gallery:
         class: AppBundle\Admin\GalleryAdmin
+        arguments: [null, AppBundle\Entity\Gallery,null , '@sonata.media.pool']
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin.group.media, label: Gallery }
-        arguments: [null, AppBundle\Entity\Gallery,null , '@sonata.media.pool']
         calls:
-            - [ setTranslationDomain, [AppBundle]]
+            - [ setTranslationDomain, [SonataMediaBundle]]
 
     admin.user:
         class: AppBundle\Admin\UserAdmin
+        arguments: [null, AppBundle\Entity\User,null]
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin.group.user, label: Users }
-        arguments: [null, AppBundle\Entity\User,null]
         calls:
-            - [ setTranslationDomain, [AppBundle]]
+            - [ setTranslationDomain, [SonataUserBundle]]
+
+    admin.post:
+        class: AppBundle\Admin\PostAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin.group.blog, label: Posts }
+        arguments: [null, AppBundle\Entity\Post,null]
+        calls:
+            - [ setTranslationDomain, [SonataNewsBundle]]
+
+    admin.comment:
+        class: AppBundle\Admin\CommentAdmin
+        arguments: [null, AppBundle\Entity\Comment,null]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin.group.blog, label: Comments }
+        calls:
+            - [ setTranslationDomain, [SonataNewsBundle]]
+
+    admin.category:
+        class: AppBundle\Admin\CategoryAdmin
+        arguments: [null, AppBundle\Entity\Category,null, '@sonata.classification.manager.context']
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin.group.classification, label: Categories }
+        calls:
+            - [ setTranslationDomain, [SonataClassificationBundle]]
+
+    admin.collection:
+        class: AppBundle\Admin\CollectionAdmin
+        arguments: [null, AppBundle\Entity\Collection,null, '@sonata.classification.manager.context']
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin.group.classification, label: Collections }
+        calls:
+            - [ setTranslationDomain, [SonataClassificationBundle]]
+
+    admin.tag:
+        class: AppBundle\Admin\TagAdmin
+        arguments: [null, AppBundle\Entity\Tag,null, '@sonata.classification.manager.context']
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin.group.classification, label: Tags }
+        calls:
+            - [ setTranslationDomain, [SonataClassificationBundle]]
+
+    admin.context:
+        class: AppBundle\Admin\ContextAdmin
+        arguments: [null, AppBundle\Entity\Context,null, '@sonata.classification.manager.context']
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin.group.classification, label: Contexts }
+        calls:
+            - [ setTranslationDomain, [SonataClassificationBundle]]
+

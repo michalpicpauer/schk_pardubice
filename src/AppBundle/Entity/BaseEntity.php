@@ -37,7 +37,7 @@ abstract class BaseEntity
     public $updatedAt;
 
     /**
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -81,7 +81,7 @@ abstract class BaseEntity
     }
 
     /**
-     * @param $timestamp
+     * @param int $timestamp
      */
     public function setVersion($timestamp)
     {

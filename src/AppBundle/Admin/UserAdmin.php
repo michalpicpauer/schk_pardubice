@@ -42,7 +42,6 @@ class UserAdmin extends BaseUserAdmin
             ->add('id')
             ->add('username')
             ->add('email')
-            ->add('name')
         ;
 
     }
@@ -127,16 +126,6 @@ class UserAdmin extends BaseUserAdmin
             ))
             ->end()
             ->with('Profile')
-            ->add('name', null, array('required' => false))
-            ->add('street', null, array('required' => false))
-            ->add('city', null, array('required' => false))
-            ->add('zip', null, array('required' => false))
-            ->add('dateOfBirth', $datePickerType, array(
-                'years' => range(1900, $now->format('Y')),
-                'dp_min_date' => '1-1-1900',
-                'dp_max_date' => $now->format('c'),
-                'required' => false,
-            ))
             ->add('firstname', null, array('required' => false))
             ->add('lastname', null, array('required' => false))
             ->add('website', $urlType, array('required' => false))

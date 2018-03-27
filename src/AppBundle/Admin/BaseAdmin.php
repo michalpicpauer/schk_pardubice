@@ -4,6 +4,7 @@ namespace AppBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Form\Type\DateTimeRangePickerType;
 use Sonata\DoctrineORMAdminBundle\Filter\DateTimeRangeFilter;
@@ -76,6 +77,19 @@ abstract class BaseAdmin extends AbstractAdmin
             ->add('created', null, ['label' => 'form.created'])
             ->add('updated', null, ['label' => 'form.updated'])
             ->end();
+    }
+
+    protected function configureListFields(ListMapper $list)
+    {
+        $list
+            ->add('created', null, ['label' => 'form.created'])
+            ->add('updated', null, ['label' => 'form.updated'])
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'edit'   => [],
+                    'delete' => []
+                ]
+            ]);
     }
 
     /**
