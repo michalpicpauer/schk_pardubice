@@ -20,6 +20,16 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * @var Collection|Group[]
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Group")
+     * @ORM\JoinTable(name="users_groups",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
+     *      )
+     */
+    protected $groups;
+
+    /**
      * @return mixed
      */
     public function getId()

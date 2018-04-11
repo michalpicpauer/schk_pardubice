@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  * @ORM\Table(name="pages_shows")
+ * @ORM\HasLifecycleCallbacks
  */
 class PageShow extends BaseEntity
 {
@@ -29,6 +30,7 @@ class PageShow extends BaseEntity
      * @var Page
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Page", cascade={"persist", "merge"})
+     * @ORM\JoinColumn(name="show_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $show;
 

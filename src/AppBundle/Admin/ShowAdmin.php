@@ -40,9 +40,7 @@ class ShowAdmin extends BaseAdmin
     {
         $form
             ->with('Show page')
-            ->add('name', TextType::class, [
-                'label' => 'form.name'
-            ])
+            ->add('name')
 //            ->add('title', TextType::class, [
 //                'label' => 'form.title'
 //            ])

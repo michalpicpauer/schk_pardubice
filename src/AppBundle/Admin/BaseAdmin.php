@@ -60,12 +60,10 @@ abstract class BaseAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
         $filter
-            ->add('created', DateTimeRangeFilter::class, [
-                'label' => 'form.created',
+            ->add('createdAt', DateTimeRangeFilter::class, [
                 'field_type' => DateTimeRangePickerType::class
             ])
-            ->add('updated', DateTimeRangeFilter::class, [
-                'label' => 'form.updated',
+            ->add('updatedAt', DateTimeRangeFilter::class, [
                 'field_type' => DateTimeRangePickerType::class
             ]);
     }
@@ -74,16 +72,16 @@ abstract class BaseAdmin extends AbstractAdmin
     {
         $show
             ->with('form.stats', ['class' => 'col-md-4'])
-            ->add('created', null, ['label' => 'form.created'])
-            ->add('updated', null, ['label' => 'form.updated'])
+            ->add('createdAt')
+            ->add('updatedAt')
             ->end();
     }
 
     protected function configureListFields(ListMapper $list)
     {
         $list
-            ->add('created', null, ['label' => 'form.created'])
-            ->add('updated', null, ['label' => 'form.updated'])
+            ->add('createdAt', 'datetime', ['format' => 'd.M.yyyy'])
+            ->add('updatedAt', 'datetime', ['format' => 'd.M.yyyy'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'edit'   => [],

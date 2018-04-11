@@ -39,7 +39,7 @@ services:
         class: AppBundle\Admin\PageAdmin
         arguments: [null, AppBundle\Entity\Page, AppBundle:PageAdmin]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: admin.group.cms, label: Pages }
+            - { name: sonata.admin, manager_type: orm, group: admin.group.cms, label: Pages, label_translator_strategy: "sonata.admin.label.strategy.underscore" }
         calls:
             - [ setTranslationDomain, [AppBundle]]
             - [ setTemplate, ['create', 'AppBundle:admin/pages:select_page_type.html.twig']]
@@ -48,7 +48,7 @@ services:
         class: AppBundle\Admin\ShowAdmin
         arguments: [null, AppBundle\Entity\Page, null]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: admin.group.cms, label: Shows }
+            - { name: sonata.admin, manager_type: orm, group: admin.group.cms, label: Shows, label_translator_strategy: "sonata.admin.label.strategy.underscore" }
         calls:
             - [ setTranslationDomain, [AppBundle]]
 
@@ -56,7 +56,7 @@ services:
         class: AppBundle\Admin\ShowPageAdmin
         arguments: [null, AppBundle\Entity\PageShow, null]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: admin.group.cms, label: PagesShows }
+            - { name: sonata.admin, manager_type: orm, group: admin.group.cms, label: PagesShows, label_translator_strategy: "sonata.admin.label.strategy.underscore" }
         calls:
             - [ setTranslationDomain, [AppBundle]]
 
@@ -64,7 +64,7 @@ services:
         class: AppBundle\Admin\MediaAdmin
         arguments: [null, AppBundle\Entity\Media,null , '@sonata.media.pool']
         tags:
-            - { name: sonata.admin, manager_type: orm, group: admin.group.media, label: Media }
+            - { name: sonata.admin, manager_type: orm, group: admin.group.media, label: Media, label_translator_strategy: "sonata.admin.label.strategy.underscore" }
         calls:
             - [ setTranslationDomain, [SonataMediaBundle]]
 
@@ -72,7 +72,7 @@ services:
         class: AppBundle\Admin\GalleryAdmin
         arguments: [null, AppBundle\Entity\Gallery,null , '@sonata.media.pool']
         tags:
-            - { name: sonata.admin, manager_type: orm, group: admin.group.media, label: Gallery }
+            - { name: sonata.admin, manager_type: orm, group: admin.group.media, label: Gallery, label_translator_strategy: "sonata.admin.label.strategy.underscore" }
         calls:
             - [ setTranslationDomain, [SonataMediaBundle]]
 
@@ -80,14 +80,22 @@ services:
         class: AppBundle\Admin\UserAdmin
         arguments: [null, AppBundle\Entity\User,null]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: admin.group.user, label: Users }
+            - { name: sonata.admin, manager_type: orm, group: admin.group.user, label: Users, label_translator_strategy: "sonata.admin.label.strategy.underscore" }
         calls:
             - [ setTranslationDomain, [SonataUserBundle]]
+
+#    admin.group:
+#        class: AppBundle\Admin\GroupAdmin
+#        arguments: [null, AppBundle\Entity\Group,null]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, group: admin.group.group, label: Groups, label_translator_strategy: "sonata.admin.label.strategy.underscore" }
+#        calls:
+#            - [ setTranslationDomain, [SonataUserBundle]]
 
     admin.post:
         class: AppBundle\Admin\PostAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: admin.group.blog, label: Posts }
+            - { name: sonata.admin, manager_type: orm, group: admin.group.blog, label: Posts, label_translator_strategy: "sonata.admin.label.strategy.underscore" }
         arguments: [null, AppBundle\Entity\Post,null]
         calls:
             - [ setTranslationDomain, [SonataNewsBundle]]
@@ -96,7 +104,7 @@ services:
         class: AppBundle\Admin\CommentAdmin
         arguments: [null, AppBundle\Entity\Comment,null]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: admin.group.blog, label: Comments }
+            - { name: sonata.admin, manager_type: orm, group: admin.group.blog, label: Comments, label_translator_strategy: "sonata.admin.label.strategy.underscore" }
         calls:
             - [ setTranslationDomain, [SonataNewsBundle]]
 
@@ -104,7 +112,7 @@ services:
         class: AppBundle\Admin\CategoryAdmin
         arguments: [null, AppBundle\Entity\Category,null, '@sonata.classification.manager.context']
         tags:
-            - { name: sonata.admin, manager_type: orm, group: admin.group.classification, label: Categories }
+            - { name: sonata.admin, manager_type: orm, group: admin.group.classification, label: Categories, label_translator_strategy: "sonata.admin.label.strategy.underscore" }
         calls:
             - [ setTranslationDomain, [SonataClassificationBundle]]
 
@@ -112,7 +120,7 @@ services:
         class: AppBundle\Admin\CollectionAdmin
         arguments: [null, AppBundle\Entity\Collection,null, '@sonata.classification.manager.context']
         tags:
-            - { name: sonata.admin, manager_type: orm, group: admin.group.classification, label: Collections }
+            - { name: sonata.admin, manager_type: orm, group: admin.group.classification, label: Collections, label_translator_strategy: "sonata.admin.label.strategy.underscore" }
         calls:
             - [ setTranslationDomain, [SonataClassificationBundle]]
 
@@ -120,7 +128,7 @@ services:
         class: AppBundle\Admin\TagAdmin
         arguments: [null, AppBundle\Entity\Tag,null, '@sonata.classification.manager.context']
         tags:
-            - { name: sonata.admin, manager_type: orm, group: admin.group.classification, label: Tags }
+            - { name: sonata.admin, manager_type: orm, group: admin.group.classification, label: Tags, label_translator_strategy: "sonata.admin.label.strategy.underscore" }
         calls:
             - [ setTranslationDomain, [SonataClassificationBundle]]
 
@@ -128,7 +136,7 @@ services:
         class: AppBundle\Admin\ContextAdmin
         arguments: [null, AppBundle\Entity\Context,null, '@sonata.classification.manager.context']
         tags:
-            - { name: sonata.admin, manager_type: orm, group: admin.group.classification, label: Contexts }
+            - { name: sonata.admin, manager_type: orm, group: admin.group.classification, label: Contexts, label_translator_strategy: "sonata.admin.label.strategy.underscore" }
         calls:
             - [ setTranslationDomain, [SonataClassificationBundle]]
 

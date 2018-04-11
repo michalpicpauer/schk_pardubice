@@ -73,5 +73,6 @@ sonata_admin:
                 icon: '<i class="fa fa-users"></i>'
                 items:
                     - admin.user
+#                    - admin.group
                 roles:
                     - ROLE_ADMIN

@@ -11,7 +11,7 @@ use Sonata\NewsBundle\Model\CommentInterface;
 use Sonata\UserBundle\Model\UserInterface;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PostRepository")
  */
 class Post extends BasePost
 {

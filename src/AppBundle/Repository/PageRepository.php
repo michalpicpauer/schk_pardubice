@@ -2,20 +2,24 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Page;
 use Doctrine\ORM\EntityRepository;
 
 class PageRepository extends EntityRepository
 {
-    /*
-    public function findBySomething($value)
+    /**
+     * Returns page object of dashboard type or null.
+     *
+     * @return Page|null
+     */
+    public function findHomePage()
     {
-        return $this->createQueryBuilder('t')
-            ->where('t.something = :value')->setParameter('value', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $qb = $this->createQueryBuilder('p');
+
+        $query = $qb->where('p.type = :value')->setParameter('value', Page::TYPE_HOMEPAGE)
+            ->setMaxResults(1)
+            ->getQuery();
+
+        return $query->getResult()[0] ?? null;
     }
-    */
 }

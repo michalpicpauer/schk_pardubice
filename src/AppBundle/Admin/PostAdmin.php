@@ -27,22 +27,29 @@ class PostAdmin extends BasePostAdmin
             ->with('group_post', [
                 'class' => 'col-md-8',
             ])
-            ->add('author', ModelListType::class)
+            ->add(
+                'author',
+                ModelAutocompleteType::class,
+                ['property' => 'username', 'minimum_input_length' => 0]
+            )
             ->add('title')
             ->add('abstract', TextareaType::class, [
                 'attr' => ['rows' => 5],
             ])
             ->add('content', FormatterType::class, [
-                'event_dispatcher' => $formMapper->getFormBuilder()->getEventDispatcher(),
-                'format_field' => 'contentFormatter',
-                'source_field' => 'rawContent',
+                'event_dispatcher'     => $formMapper->getFormBuilder()->getEventDispatcher(),
+                'format_field'         => 'contentFormatter',
+                'source_field'         => 'rawContent',
                 'source_field_options' => [
                     'horizontal_input_wrapper_class' => $isHorizontal ? 'col-lg-12' : '',
-                    'attr' => ['class' => $isHorizontal ? 'span10 col-sm-10 col-md-10' : '', 'rows' => 20],
+                    'attr'                           => [
+                        'class' => $isHorizontal ? 'span10 col-sm-10 col-md-10' : '',
+                        'rows'  => 20
+                    ],
                 ],
-                'ckeditor_context' => 'news',
-                'target_field' => 'content',
-                'listener' => true,
+                'ckeditor_context'     => 'news',
+                'target_field'         => 'content',
+                'listener'             => true,
             ])
             ->end()
             ->with('group_status', [
@@ -51,17 +58,16 @@ class PostAdmin extends BasePostAdmin
             ->add('enabled', CheckboxType::class, ['required' => false])
             ->add('image', ModelListType::class, ['required' => false], [
                 'link_parameters' => [
-                    'context' => 'news',
+                    'context'      => 'news',
                     'hide_context' => true,
                 ],
             ])
-
             ->add('publicationDateStart', DateTimePickerType::class, [
                 'dp_side_by_side' => true,
             ])
             ->add('commentsCloseAt', DateTimePickerType::class, [
                 'dp_side_by_side' => true,
-                'required' => false,
+                'required'        => false,
             ])
             ->add('commentsEnabled', CheckboxType::class, [
                 'required' => false,
@@ -70,7 +76,6 @@ class PostAdmin extends BasePostAdmin
                 'expanded' => true,
             ])
             ->end()
-
             ->with('group_classification', [
                 'class' => 'col-md-4',
             ])
@@ -83,7 +88,6 @@ class PostAdmin extends BasePostAdmin
                 'property' => 'name',
                 'required' => false,
             ])
-            ->end()
-        ;
+            ->end();
     }
 }

@@ -13,11 +13,12 @@ use Sonata\MediaBundle\Model\MediaInterface;
  * Entity\Page
  *
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PageRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Page extends BaseEntity
 {
     const TYPE_DEFAULT = 'default_page';
-    const TYPE_DASHBOARD = 'dashboard';
+    const TYPE_HOMEPAGE = 'homepage';
     const TYPE_NEWS = 'news_page';
     const TYPE_SHOWS = 'shows_page';
     const TYPE_CONTACT = 'contact_page';
@@ -53,6 +54,13 @@ class Page extends BaseEntity
     protected $subtitle;
 
     /**
+     * @var int|null
+     *
+     * @ORM\Column(name="number_of_news", type="integer", nullable=true)
+     */
+    protected $numberOfNews;
+
+    /**
      * @var string|null
      *
      * @ORM\Column(name="content", type="text", nullable=true)
@@ -84,7 +92,7 @@ class Page extends BaseEntity
      * @var MediaInterface|null
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Media")
-     * @ORM\JoinColumn(name="main_image_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="main_image_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $mainImage;
 
@@ -93,8 +101,8 @@ class Page extends BaseEntity
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Collection")
      * @ORM\JoinTable(name="pages_collections",
-     *      joinColumns={@ORM\JoinColumn(name="page_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="collection_id", referencedColumnName="id")}
+     *      joinColumns={@ORM\JoinColumn(name="page_id", referencedColumnName="id", onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="collection_id", referencedColumnName="id", onDelete="CASCADE")}
      *      )
      */
     protected $collections;
@@ -103,8 +111,8 @@ class Page extends BaseEntity
      * @var Collection|GalleryInterface[]
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Gallery")
      * @ORM\JoinTable(name="pages_galleries",
-     *      joinColumns={@ORM\JoinColumn(name="page_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="gallery_id", referencedColumnName="id")}
+     *      joinColumns={@ORM\JoinColumn(name="page_id", referencedColumnName="id", onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="gallery_id", referencedColumnName="id", onDelete="CASCADE")}
      *      )
      */
     protected $galleries;
@@ -186,6 +194,22 @@ class Page extends BaseEntity
     public function setSubtitle($subtitle): void
     {
         $this->subtitle = $subtitle;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getNumberOfNews(): ?int
+    {
+        return $this->numberOfNews;
+    }
+
+    /**
+     * @param int|null $numberOfNews
+     */
+    public function setNumberOfNews(?int $numberOfNews): void
+    {
+        $this->numberOfNews = $numberOfNews;
     }
 
     /**
@@ -360,7 +384,7 @@ class Page extends BaseEntity
     {
         return [
             self::TYPE_DEFAULT,
-            self::TYPE_DASHBOARD,
+            self::TYPE_HOMEPAGE,
             self::TYPE_NEWS,
             self::TYPE_CONTACT,
             self::TYPE_SHOWS,

@@ -37,8 +37,8 @@ class PageAdmin extends BaseAdmin
     {
         $pageType = $this->getSubject()->getType() ?? $this->getPersistentParameters()['page_type'];
         switch ($pageType) {
-            case Page::TYPE_DASHBOARD:
-                $this->buildDefaultPageForm($form);
+            case Page::TYPE_HOMEPAGE:
+                $this->buildHomePageForm($form);
                 break;
             case Page::TYPE_NEWS:
                 $this->buildNewsPageForm($form);
@@ -47,6 +47,7 @@ class PageAdmin extends BaseAdmin
                 $this->buildGalleryPageForm($form);
                 break;
             case Page::TYPE_CONTACT:
+                $this->buildFullPageForm($form);
                 break;
             case Page::TYPE_SHOWS:
                 $this->buildShowsPageForm($form);
@@ -115,17 +116,10 @@ class PageAdmin extends BaseAdmin
     {
         $form
             ->with('Default page')
-            ->add('name', TextType::class, [
-                'label' => 'form.name'
-            ])
-            ->add('title', TextType::class, [
-                'label' => 'form.title'
-            ])
-            ->add('subtitle', TextType::class, [
-                'label' => 'form.subtitle'
-            ])
+            ->add('name', TextType::class)
+            ->add('title', TextType::class)
+            ->add('subtitle', TextType::class)
             ->add('content', FormatterType::class, [
-                'label'                  => 'form.content',
                 'required'               => false,
                 'event_dispatcher'       => $form->getFormBuilder()->getEventDispatcher(),
                 'format_field'           => 'contentFormatter',
@@ -144,7 +138,6 @@ class PageAdmin extends BaseAdmin
                 'required' => false,
             ])
             ->add('shows', CollectionType::class, [
-                'label'        => 'hgu',
                 'by_reference' => false,
             ], [
                 'edit' => 'inline',
@@ -163,21 +156,14 @@ class PageAdmin extends BaseAdmin
             ->end();
     }
 
-    private function buildDefaultPageForm(FormMapper $form)
+    private function buildHomePageForm(FormMapper $form)
     {
         $form
-            ->with('Default page')
-            ->add('name', TextType::class, [
-                'label' => 'form.name'
-            ])
-            ->add('title', TextType::class, [
-                'label' => 'form.title'
-            ])
-            ->add('subtitle', TextType::class, [
-                'label' => 'form.subtitle'
-            ])
+            ->with('Homepage')
+            ->add('name')
+            ->add('title')
+            ->add('subtitle')
             ->add('content', FormatterType::class, [
-                'label'                  => 'form.content',
                 'required'               => false,
                 'event_dispatcher'       => $form->getFormBuilder()->getEventDispatcher(),
                 'format_field'           => 'contentFormatter',
@@ -185,6 +171,7 @@ class PageAdmin extends BaseAdmin
                 'target_field'           => 'content',
                 'ckeditor_toolbar_icons' => $this->getCkEditorToolbarIcons()
             ])
+            ->add('numberOfNews')
             ->add('mainImage', ModelListType::class, [
                 'required' => false,
             ], [
@@ -200,15 +187,9 @@ class PageAdmin extends BaseAdmin
     {
         $form
             ->with('News page')
-            ->add('name', TextType::class, [
-                'label' => 'form.name'
-            ])
-            ->add('title', TextType::class, [
-                'label' => 'form.title'
-            ])
-            ->add('subtitle', TextType::class, [
-                'label' => 'form.subtitle'
-            ])
+            ->add('name')
+            ->add('title')
+            ->add('subtitle')
             ->add('collections', ModelAutocompleteType::class, [
                 'property' => 'name',
                 'multiple' => 'true',
@@ -230,17 +211,10 @@ class PageAdmin extends BaseAdmin
     {
         $form
             ->with('Gallery page')
-            ->add('name', TextType::class, [
-                'label' => 'form.name'
-            ])
-            ->add('title', TextType::class, [
-                'label' => 'form.title'
-            ])
-            ->add('subtitle', TextType::class, [
-                'label' => 'form.subtitle'
-            ])
+            ->add('name')
+            ->add('title')
+            ->add('subtitle')
             ->add('content', FormatterType::class, [
-                'label'                  => 'form.content',
                 'required'               => false,
                 'event_dispatcher'       => $form->getFormBuilder()->getEventDispatcher(),
                 'format_field'           => 'contentFormatter',
@@ -269,17 +243,10 @@ class PageAdmin extends BaseAdmin
     {
         $form
             ->with('Shows page')
-            ->add('name', TextType::class, [
-                'label' => 'form.name'
-            ])
-            ->add('title', TextType::class, [
-                'label' => 'form.title'
-            ])
-            ->add('subtitle', TextType::class, [
-                'label' => 'form.subtitle'
-            ])
+            ->add('name')
+            ->add('title')
+            ->add('subtitle')
             ->add('content', FormatterType::class, [
-                'label'                  => 'form.content',
                 'required'               => false,
                 'event_dispatcher'       => $form->getFormBuilder()->getEventDispatcher(),
                 'format_field'           => 'contentFormatter',
@@ -288,7 +255,6 @@ class PageAdmin extends BaseAdmin
                 'ckeditor_toolbar_icons' => $this->getCkEditorToolbarIcons()
             ])
             ->add('shows', CollectionType::class, [
-                'label'        => 'hgu',
                 'by_reference' => false,
             ], [
                 'edit' => 'inline',

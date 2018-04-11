@@ -6,7 +6,7 @@ use Sonata\ClassificationBundle\Admin\TagAdmin as BaseTagAdmin;
 
 class TagAdmin extends BaseTagAdmin
 {
-    const ROUTE = 'category';
+    const ROUTE = 'tag  ';
 
     protected $baseRoutePattern = self::ROUTE;
 
