@@ -16,9 +16,9 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\FormatterBundle\Form\Type\FormatterType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class ShowAdmin extends BaseAdmin
+class EventAdmin extends BaseAdmin
 {
-    const ROUTE = 'show';
+    const ROUTE = 'event';
 
     protected $baseRoutePattern = self::ROUTE;
 
@@ -31,7 +31,7 @@ class ShowAdmin extends BaseAdmin
 
         $alias = $query->getRootAliases()[0];
 
-        $query->where($query->expr()->eq($alias . '.type', $query->expr()->literal('show')));
+        $query->where($query->expr()->eq($alias . '.type', $query->expr()->literal(Page::TYPE_EVENT)));
 
         return $query;
     }
@@ -39,7 +39,7 @@ class ShowAdmin extends BaseAdmin
     protected function configureFormFields(FormMapper $form)
     {
         $form
-            ->with('Show page')
+            ->with('Event page')
             ->add('name')
 //            ->add('title', TextType::class, [
 //                'label' => 'form.title'
@@ -67,7 +67,7 @@ class ShowAdmin extends BaseAdmin
 //            ], [
 //                'link_parameters' => [
 //                    'provider' => 'sonata.media.provider.image',
-//                    'context'  => 'pages',
+//                    'context'  => 'default',
 //                ],
 //            ])
             ->end();
@@ -95,6 +95,6 @@ class ShowAdmin extends BaseAdmin
      */
     public function prePersist($object)
     {
-        $object->setType('show');
+        $object->setType(Page::TYPE_EVENT);
     }
 }

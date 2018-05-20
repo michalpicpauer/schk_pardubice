@@ -72,6 +72,7 @@ swiftmailer:
 stof_doctrine_extensions:
     orm:
         default:
+            sortable: true
             sluggable: true
 
 fos_user:
@@ -159,26 +160,6 @@ sonata_media:
                 small: { width: 100 , quality: 70}
                 normal: { width: 1024 , quality: 85}
                 big:   { width: 1920 , quality: 90}
-        news:
-            providers:
-                - sonata.media.provider.dailymotion
-                - sonata.media.provider.youtube
-                - sonata.media.provider.image
-
-            formats:
-                small: { width: 150 , quality: 95}
-                normal: { width: 1024 , quality: 90}
-                big:   { width: 1920 , quality: 90}
-        pages:
-            providers:
-                - sonata.media.provider.dailymotion
-                - sonata.media.provider.youtube
-                - sonata.media.provider.image
-
-            formats:
-                small: { width: 150 , quality: 95}
-                normal: { width: 1024 , quality: 90}
-                big:   { width: 1920 , quality: 90}
 
     cdn:
         server:
@@ -186,7 +167,7 @@ sonata_media:
 
     filesystem:
         local:
-            directory:  "%kernel.root_dir%/../public/uploads/media"
+            directory:  "%kernel.root_dir%/../web/uploads/media"
             create:     false
 
 sonata_news:

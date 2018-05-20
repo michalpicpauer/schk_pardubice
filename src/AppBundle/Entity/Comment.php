@@ -22,7 +22,7 @@ class Comment extends BaseComment
 
     /**
      * @var PostInterface
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post", inversedBy="comments")
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
     protected $post;

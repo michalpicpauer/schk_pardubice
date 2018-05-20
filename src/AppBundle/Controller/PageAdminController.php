@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller;
 
-use Sonata\AdminBundle\Controller\CRUDController as Controller;
+use Pix\SortableBehaviorBundle\Controller\SortableAdminController as Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 class PageAdminController extends Controller

@@ -1,7 +1,7 @@
 {% extends 'AppBundle:client:standard_layout.html.twig' %}
 
 {% block header %}
-    <header class="masthead" style="background-image: url('{{ asset('img/schuze.jpg') }}')">
+    <header class="masthead" style="background-image: url('{{ asset('img/home-bg.jpg') }}')">
         <div class="overlay"></div>
         <div class="container">
             <div class="row">
@@ -20,12 +20,6 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
-                {{ page.content|raw }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto">
-                <h4>Novinky a články</h4>
                 {% for post in posts %}
                     <div class="post-preview">
                         <a href="{{ url('sonata_news_view', { 'permalink': sonata_news_permalink(post) }) }}">
@@ -35,15 +29,14 @@
                             <h3 class="post-subtitle">
                                 {{ post.abstract }}
                             </h3>
-                        <p class="post-meta">
-                            <span class="sonata-blog-post-author">{{ 'archive_author'|trans({'%author%': post.author }, 'SonataNewsBundle') }}</span> |
-                            <i class="icon-calendar"></i>{{ post.publicationDateStart | format_date }}</p>
+                            <p class="post-meta">
+                                <span class="sonata-blog-post-author">{{ 'archive_author'|trans({'%author%': post.author }, 'SonataNewsBundle') }}</span> |
+                                <i class="icon-calendar"></i>{{ post.publicationDateStart | format_date }}</p>
                         </a>
                     </div>
                 {% endfor %}
-
                 <div class="clearfix">
-                    {#<a class="btn btn-primary float-right" href="#">Starší příspěvky &rarr;</a>#}
+                    <a class="btn btn-primary float-right" href="#">Starší příspěvky &rarr;</a>
                 </div>
             </div>
         </div>

@@ -9,6 +9,8 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
+use Sonata\AdminBundle\Form\Type\ModelType;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\CoreBundle\Form\Type\CollectionType;
 use Sonata\FormatterBundle\Form\Type\FormatterType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,6 +23,18 @@ class PageAdmin extends BaseAdmin
 
     protected $baseRouteName = self::ROUTE;
 
+    protected $datagridValues = [
+        '_page'       => 1,
+        '_sort_order' => 'ASC',
+        '_sort_by'    => 'position',
+    ];
+
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        parent::configureRoutes($collection);
+        $collection->add('move', $this->getRouterIdParameter().'/move/{position}');
+    }
+
     public function createQuery($context = 'list')
     {
         /** @var QueryBuilder $query */
@@ -28,7 +42,7 @@ class PageAdmin extends BaseAdmin
 
         $alias = $query->getRootAliases()[0];
 
-        $query->where($query->expr()->neq($alias . '.type', $query->expr()->literal('show')));
+        $query->where($query->expr()->neq($alias . '.type', $query->expr()->literal(Page::TYPE_EVENT)));
 
         return $query;
     }
@@ -40,8 +54,8 @@ class PageAdmin extends BaseAdmin
             case Page::TYPE_HOMEPAGE:
                 $this->buildHomePageForm($form);
                 break;
-            case Page::TYPE_NEWS:
-                $this->buildNewsPageForm($form);
+            case Page::TYPE_POSTS:
+                $this->buildPostsPageForm($form);
                 break;
             case Page::TYPE_GALLERY:
                 $this->buildGalleryPageForm($form);
@@ -49,8 +63,8 @@ class PageAdmin extends BaseAdmin
             case Page::TYPE_CONTACT:
                 $this->buildFullPageForm($form);
                 break;
-            case Page::TYPE_SHOWS:
-                $this->buildShowsPageForm($form);
+            case Page::TYPE_EVENTS:
+                $this->buildEventsPageForm($form);
                 break;
             default:
                 $this->buildFullPageForm($form);
@@ -59,11 +73,26 @@ class PageAdmin extends BaseAdmin
 
     protected function configureListFields(ListMapper $list)
     {
+
+
         $list
             ->addIdentifier('name', null, ['label' => 'form.name'])
             ->add('type', null, ['label' => 'form.type']);
 
         parent::configureListFields($list);
+
+        $list
+            ->remove('_action')
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'edit'   => [],
+                    'delete' => [],
+                    'move'   => [
+                        'template' => '@PixSortableBehavior/Default/_sort_drag_drop.html.twig',
+                        'enable_top_bottom_buttons' => false,
+                    ]
+                ]
+            ]);
     }
 
     protected function configureDatagridFilters(DatagridMapper $filter)
@@ -73,18 +102,6 @@ class PageAdmin extends BaseAdmin
 
         parent::configureDatagridFilters($filter);
     }
-
-//    protected function configureShowFields(ShowMapper $show)
-//    {
-//        $show
-//            ->with('FormInfo', ['class' => 'col-md-8'])
-//            ->add('name', null, ['label' => 'FormName'])
-//            ->add('slug', null, ['label' => 'FormSlug'])
-//            ->add('content', 'html', ['label' => 'FormContent'])
-//            ->end();
-//
-//        parent::configureShowFields($show);
-//    }
 
     public function getPersistentParameters()
     {
@@ -137,20 +154,20 @@ class PageAdmin extends BaseAdmin
                 'multiple' => 'true',
                 'required' => false,
             ])
-            ->add('shows', CollectionType::class, [
+            ->add('events', CollectionType::class, [
                 'by_reference' => false,
             ], [
-                'edit' => 'inline',
-                'inline' => 'table',
-                'sortable' => 'priority',
-                'placeholder' => 'No shows added'
+                'edit'        => 'inline',
+                'inline'      => 'table',
+                'sortable'    => 'priority',
+                'placeholder' => 'No events added'
             ])
             ->add('mainImage', ModelListType::class, [
                 'required' => false,
             ], [
                 'link_parameters' => [
                     'provider' => 'sonata.media.provider.image',
-                    'context'  => 'pages',
+                    'context'  => 'default',
                 ],
             ])
             ->end();
@@ -177,23 +194,21 @@ class PageAdmin extends BaseAdmin
             ], [
                 'link_parameters' => [
                     'provider' => 'sonata.media.provider.image',
-                    'context'  => 'pages',
+                    'context'  => 'default',
                 ],
             ])
             ->end();
     }
 
-    private function buildNewsPageForm(FormMapper $form)
+    private function buildPostsPageForm(FormMapper $form)
     {
         $form
-            ->with('News page')
+            ->with('Posts page')
             ->add('name')
             ->add('title')
-            ->add('subtitle')
-            ->add('collections', ModelAutocompleteType::class, [
-                'property' => 'name',
+            ->add('subtitle', null, ['required' => false])
+            ->add('collections', ModelType::class, [
                 'multiple' => 'true',
-                'minimum_input_length' => 1,
                 'required' => false,
             ])
             ->add('mainImage', ModelListType::class, [
@@ -201,7 +216,7 @@ class PageAdmin extends BaseAdmin
             ], [
                 'link_parameters' => [
                     'provider' => 'sonata.media.provider.image',
-                    'context'  => 'pages',
+                    'context'  => 'default',
                 ],
             ])
             ->end();
@@ -223,26 +238,26 @@ class PageAdmin extends BaseAdmin
                 'ckeditor_toolbar_icons' => $this->getCkEditorToolbarIcons()
             ])
             ->add('galleries', ModelAutocompleteType::class, [
-                'property' => 'name',
-                'multiple' => 'true',
+                'property'             => 'name',
+                'multiple'             => 'true',
                 'minimum_input_length' => 1,
-                'required' => false,
+                'required'             => false,
             ])
             ->add('mainImage', ModelListType::class, [
                 'required' => false,
             ], [
                 'link_parameters' => [
                     'provider' => 'sonata.media.provider.image',
-                    'context'  => 'pages',
+                    'context'  => 'default',
                 ],
             ])
             ->end();
     }
 
-    private function buildShowsPageForm(FormMapper $form)
+    private function buildEventsPageForm(FormMapper $form)
     {
         $form
-            ->with('Shows page')
+            ->with('Events page')
             ->add('name')
             ->add('title')
             ->add('subtitle')
@@ -254,20 +269,20 @@ class PageAdmin extends BaseAdmin
                 'target_field'           => 'content',
                 'ckeditor_toolbar_icons' => $this->getCkEditorToolbarIcons()
             ])
-            ->add('shows', CollectionType::class, [
+            ->add('events', CollectionType::class, [
                 'by_reference' => false,
             ], [
-                'edit' => 'inline',
-                'inline' => 'table',
-                'sortable' => 'priority',
-                'placeholder' => 'No shows added'
+                'edit'        => 'inline',
+                'inline'      => 'table',
+                'sortable'    => 'priority',
+                'placeholder' => 'No events added'
             ])
             ->add('mainImage', ModelListType::class, [
                 'required' => false,
             ], [
                 'link_parameters' => [
                     'provider' => 'sonata.media.provider.image',
-                    'context'  => 'pages',
+                    'context'  => 'default',
                 ],
             ])
             ->end();

@@ -6,10 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="pages_shows")
+ * @ORM\Table(name="pages_events")
  * @ORM\HasLifecycleCallbacks
  */
-class PageShow extends BaseEntity
+class PageEvent extends BaseEntity
 {
     /**
      * @var int
@@ -21,7 +21,7 @@ class PageShow extends BaseEntity
     /**
      * @var Page
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Page", inversedBy="shows", cascade={"persist", "merge"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Page", inversedBy="events", cascade={"persist", "merge"})
      * @ORM\JoinColumn(name="page_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $page;
@@ -30,9 +30,9 @@ class PageShow extends BaseEntity
      * @var Page
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Page", cascade={"persist", "merge"})
-     * @ORM\JoinColumn(name="show_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="event_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    protected $show;
+    protected $event;
 
     /**
      * @return int
@@ -69,16 +69,16 @@ class PageShow extends BaseEntity
     /**
      * @return Page
      */
-    public function getShow()
+    public function getEvent()
     {
-        return $this->show;
+        return $this->event;
     }
 
     /**
-     * @param Page $show
+     * @param Page $event
      */
-    public function setShow(Page $show): void
+    public function setEvent(Page $event): void
     {
-        $this->show = $show;
+        $this->event = $event;
     }
 }

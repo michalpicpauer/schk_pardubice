@@ -8,7 +8,7 @@ use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
-class ShowPageAdmin extends BaseAdmin
+class EventPageAdmin extends BaseAdmin
 {
 
     protected function configureRoutes(RouteCollection $collection)
@@ -19,12 +19,12 @@ class ShowPageAdmin extends BaseAdmin
     protected function configureFormFields(FormMapper $form)
     {
         $form
-            ->add('show', ModelListType::class, [
+            ->add('event', ModelListType::class, [
                 'required' => false,
                 'btn_delete' => false,
                 'by_reference' => false,
             ], [
-                'admin_code' => 'admin.show'
+                'admin_code' => 'admin.event'
             ])
             ->add('priority', HiddenType::class);
     }

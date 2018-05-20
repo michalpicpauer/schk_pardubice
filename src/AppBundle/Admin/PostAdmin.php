@@ -47,7 +47,7 @@ class PostAdmin extends BasePostAdmin
                         'rows'  => 20
                     ],
                 ],
-                'ckeditor_context'     => 'news',
+                'ckeditor_context'     => 'default',
                 'target_field'         => 'content',
                 'listener'             => true,
             ])
@@ -58,7 +58,7 @@ class PostAdmin extends BasePostAdmin
             ->add('enabled', CheckboxType::class, ['required' => false])
             ->add('image', ModelListType::class, ['required' => false], [
                 'link_parameters' => [
-                    'context'      => 'news',
+                    'context'      => 'default',
                     'hide_context' => true,
                 ],
             ])

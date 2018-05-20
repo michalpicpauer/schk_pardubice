@@ -34,6 +34,11 @@ services:
     #     arguments:
     #         $someArgument: 'some_value'
 
+    AppBundle\Manager\PostManager:
+        class: AppBundle\Manager\PostManager
+        arguments:
+            $postManager: '@sonata.news.manager.post'
+
     # Sonata Admin
     admin.page:
         class: AppBundle\Admin\PageAdmin
@@ -44,19 +49,19 @@ services:
             - [ setTranslationDomain, [AppBundle]]
             - [ setTemplate, ['create', 'AppBundle:admin/pages:select_page_type.html.twig']]
 
-    admin.show:
-        class: AppBundle\Admin\ShowAdmin
+    admin.event:
+        class: AppBundle\Admin\EventAdmin
         arguments: [null, AppBundle\Entity\Page, null]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: admin.group.cms, label: Shows, label_translator_strategy: "sonata.admin.label.strategy.underscore" }
+            - { name: sonata.admin, manager_type: orm, group: admin.group.cms, label: Events, label_translator_strategy: "sonata.admin.label.strategy.underscore" }
         calls:
             - [ setTranslationDomain, [AppBundle]]
 
-    admin.page_show:
-        class: AppBundle\Admin\ShowPageAdmin
-        arguments: [null, AppBundle\Entity\PageShow, null]
+    admin.page_event:
+        class: AppBundle\Admin\EventPageAdmin
+        arguments: [null, AppBundle\Entity\PageEvent, null]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: admin.group.cms, label: PagesShows, label_translator_strategy: "sonata.admin.label.strategy.underscore" }
+            - { name: sonata.admin, manager_type: orm, group: admin.group.cms, label: PagesEvents, label_translator_strategy: "sonata.admin.label.strategy.underscore" }
         calls:
             - [ setTranslationDomain, [AppBundle]]
 

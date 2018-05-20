@@ -19,10 +19,11 @@ class Page extends BaseEntity
 {
     const TYPE_DEFAULT = 'default_page';
     const TYPE_HOMEPAGE = 'homepage';
-    const TYPE_NEWS = 'news_page';
-    const TYPE_SHOWS = 'shows_page';
+    const TYPE_POSTS = 'posts_page';
+    const TYPE_EVENTS = 'events_page';
     const TYPE_CONTACT = 'contact_page';
     const TYPE_GALLERY = 'gallery_page';
+    const TYPE_EVENT = 'event';
 
     /**
      * @var string
@@ -40,6 +41,14 @@ class Page extends BaseEntity
     protected $slug;
 
     /**
+     * @var int
+     *
+     * @Gedmo\SortablePosition
+     * @ORM\Column(name="position", type="integer")
+     */
+    protected $position;
+
+    /**
      * @var string|null
      *
      * @ORM\Column(name="title", type="string")
@@ -49,7 +58,7 @@ class Page extends BaseEntity
     /**
      * @var string|null
      *
-     * @ORM\Column(name="subtitle", type="string")
+     * @ORM\Column(name="subtitle", type="string", nullable=true)
      */
     protected $subtitle;
 
@@ -118,18 +127,18 @@ class Page extends BaseEntity
     protected $galleries;
 
     /**
-     * @var Collection|PageShow[]
+     * @var Collection|PageEvent[]
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\PageShow", mappedBy="page", cascade={"persist", "merge", "remove"})
+     * @ORM\OneToMany(targetEntity="PageEvent", mappedBy="page", cascade={"persist", "merge", "remove"})
      * @ORM\OrderBy({"priority" = "ASC"})
      */
-    protected $shows;
+    protected $events;
 
     public function __construct()
     {
         $this->collections = new ArrayCollection();
         $this->galleries = new ArrayCollection();
-        $this->shows = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     /**
@@ -162,6 +171,22 @@ class Page extends BaseEntity
     public function setSlug(string $slug): void
     {
         $this->slug = $slug;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPosition(): int
+    {
+        return $this->position;
+    }
+
+    /**
+     * @param int $position
+     */
+    public function setPosition(int $position): void
+    {
+        $this->position = $position;
     }
 
     /**
@@ -345,30 +370,30 @@ class Page extends BaseEntity
     }
 
     /**
-     * @return Collection|PageShow[]
+     * @return Collection|PageEvent[]
      */
-    public function getShows()
+    public function getEvents()
     {
-        return $this->shows;
+        return $this->events;
     }
 
     /**
-     * @param PageShow $show
+     * @param PageEvent $event
      */
-    public function addShow($show): void
+    public function addEvent($event): void
     {
-        if (!$this->shows->contains($show)) {
-            $show->setPage($this);
-            $this->shows[] = $show;
+        if (!$this->events->contains($event)) {
+            $event->setPage($this);
+            $this->events[] = $event;
         }
     }
 
     /**
-     * @param PageShow $show
+     * @param PageEvent $event
      */
-    public function removeShow($show): void
+    public function removeEvent($event): void
     {
-        $this->shows->removeElement($show);
+        $this->events->removeElement($event);
     }
 
     public function __toString()
@@ -385,9 +410,9 @@ class Page extends BaseEntity
         return [
             self::TYPE_DEFAULT,
             self::TYPE_HOMEPAGE,
-            self::TYPE_NEWS,
+            self::TYPE_POSTS,
             self::TYPE_CONTACT,
-            self::TYPE_SHOWS,
+            self::TYPE_EVENTS,
             self::TYPE_GALLERY,
         ];
     }

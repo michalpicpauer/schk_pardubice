@@ -22,4 +22,17 @@ class PageRepository extends EntityRepository
 
         return $query->getResult()[0] ?? null;
     }
+
+    public function findAllPages()
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        $query = $qb
+            ->where($qb->expr()->notIn('p.type', ':values'))
+            ->orderBy('p.position')
+            ->setParameter('values', [Page::TYPE_EVENT, Page::TYPE_HOMEPAGE])
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }
