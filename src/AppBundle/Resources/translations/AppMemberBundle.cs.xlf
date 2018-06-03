@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file source-language="en" target-language="cs" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>Member List</source>
+                <target>Seznam členů</target>
+            </trans-unit>
+
+            <trans-unit id="2">
+                <source>Name</source>
+                <target>Název</target>
+            </trans-unit>
+
+            <trans-unit id="3">
+                <source>Breed</source>
+                <target>Plemeno</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Cattery Name</source>
+                <target>Název chovné stanice</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>Web</source>
+                <target>Web</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>Member Create</source>
+                <target>Vytvořit člena</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>Member</source>
+                <target>Člen</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>Members</source>
+                <target>Členi</target>
+            </trans-unit>
+
+            <trans-unit id="16">
+                <source>Created At</source>
+                <target>Vytvořeno</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>Updated At</source>
+                <target>Upraveno</target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>Action</source>
+                <target>Akce</target>
+            </trans-unit>
+
+        </body>
+    </file>
+</xliff>

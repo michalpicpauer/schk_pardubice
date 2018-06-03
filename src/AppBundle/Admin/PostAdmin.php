@@ -5,12 +5,14 @@ namespace AppBundle\Admin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
+use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\CoreBundle\Form\Type\DateTimePickerType;
 use Sonata\FormatterBundle\Form\Type\FormatterType;
 use Sonata\NewsBundle\Admin\PostAdmin as BasePostAdmin;
 use Sonata\NewsBundle\Form\Type\CommentStatusType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class PostAdmin extends BasePostAdmin
 {
@@ -30,9 +32,9 @@ class PostAdmin extends BasePostAdmin
             ->add(
                 'author',
                 ModelAutocompleteType::class,
-                ['property' => 'username', 'minimum_input_length' => 0]
+                ['property' => 'username', 'minimum_input_length' => 0, 'required' => false]
             )
-            ->add('title')
+            ->add('title', TextType::class, ['label' => 'form.label_title'])
             ->add('abstract', TextareaType::class, [
                 'attr' => ['rows' => 5],
             ])
@@ -56,12 +58,17 @@ class PostAdmin extends BasePostAdmin
                 'class' => 'col-md-4',
             ])
             ->add('enabled', CheckboxType::class, ['required' => false])
-            ->add('image', ModelListType::class, ['required' => false], [
-                'link_parameters' => [
-                    'context'      => 'default',
-                    'hide_context' => true,
-                ],
-            ])
+            ->add(
+                'image',
+                ModelListType::class,
+                $this->getImageFieldOptions($this->getSubject()->getImage()),
+                [
+                    'link_parameters' => [
+                        'provider' => 'sonata.media.provider.image',
+                        'context'  => 'default',
+                    ],
+                ]
+            )
             ->add('publicationDateStart', DateTimePickerType::class, [
                 'dp_side_by_side' => true,
             ])
@@ -72,22 +79,36 @@ class PostAdmin extends BasePostAdmin
             ->add('commentsEnabled', CheckboxType::class, [
                 'required' => false,
             ])
-            ->add('commentsDefaultStatus', CommentStatusType::class, [
-                'expanded' => true,
-            ])
+//            ->add('commentsDefaultStatus', CommentStatusType::class, [
+//                'expanded' => true,
+//                'required' => false,
+//            ])
             ->end()
             ->with('group_classification', [
                 'class' => 'col-md-4',
             ])
-            ->add('tags', ModelAutocompleteType::class, [
-                'property' => 'name',
+            ->add('tags', ModelType::class, [
                 'multiple' => 'true',
                 'required' => false,
             ])
-            ->add('collection', ModelAutocompleteType::class, [
-                'property' => 'name',
+            ->add('collection', ModelType::class, [
                 'required' => false,
             ])
             ->end();
+    }
+
+    protected function getImageFieldOptions($image)
+    {
+        $fileFieldOptions = ['required' => false];
+        if ($image) {
+            $container = $this->getConfigurationPool()->getContainer();
+            $pr = $container->get('sonata.media.provider.image');
+            $fileFieldOptions = ['required' => false];
+            if ($webPath = $pr->generatePublicUrl($image, 'admin')) {
+                $fileFieldOptions['help'] = '<img src="' . $webPath . '" class="admin-preview" />';
+            }
+        }
+
+        return $fileFieldOptions;
     }
 }

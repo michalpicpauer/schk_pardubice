@@ -1,0 +1,25 @@
+{% extends 'AppBundle:client:standard_layout.html.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mx-auto">
+                <div class="page-image" style="background-image: url('{% path post.image, 'big' %}')">
+                    {% if post.image is empty %}
+                        <div class="overlay-2"></div>
+                    {% else %}
+                        <div class="overlay"></div>
+                    {% endif %}
+                    <div class="site-heading">
+                        <h1>{{ post.title }}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mx-auto">
+                {{ post.content|raw }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

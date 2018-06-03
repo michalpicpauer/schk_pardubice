@@ -24,6 +24,12 @@ class Post extends BasePost
      */
     private $id;
 
+    protected $enabled = true;
+
+    protected $commentsEnabled = false;
+
+    protected $commentsDefaultStatus = 1;
+
     /**
      * @var Collection|TagInterface[]
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag")

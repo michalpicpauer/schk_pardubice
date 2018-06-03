@@ -12,6 +12,7 @@
         <link href="{{ asset('bundles/app/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('bundles/app/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('bundles/app/css/clean-blog.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('bundles/app/css/lightbox.min.css') }}" rel="stylesheet" type="text/css">
         <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet'
               type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
@@ -27,22 +28,7 @@
     {{ render(path('navigation')) }}
 {% endblock %}
 
-{% block header %}
-    <header class="masthead" style="background-image: url('{{ asset('img/home-bg.jpg') }}')">
-        <div class="overlay"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-md-10 mx-auto">
-                    <div class="site-heading">
-                        <h1>SO Pardubice</h1>
-                        <span class="subheading">Sdružení chovatelů a koček</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-{% endblock %}
-
+<div class="main-content">
 {% block content %}
     <div class="container">
         <div class="row">
@@ -52,23 +38,15 @@
         </div>
     </div>
 {% endblock %}
+</div>
 
 
 {% block footer %}
-    <hr>
     <footer>
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-md-10 mx-auto">
                     <ul class="list-inline text-center">
-                        <li class="list-inline-item">
-                            <a href="#">
-                  <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                  </span>
-                            </a>
-                        </li>
                         <li class="list-inline-item">
                             <a href="#">
                   <span class="fa-stack fa-lg">
@@ -81,12 +59,12 @@
                             <a href="#">
                   <span class="fa-stack fa-lg">
                     <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                    <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
                   </span>
                             </a>
                         </li>
                     </ul>
-                    <p class="copyright text-muted">&copy; schk-pardubice.cz 2017</p>
+                    <p class="copyright text-muted">&copy; schk-pardubice.cz {{ "now"|date("Y") }}</p>
                 </div>
             </div>
         </div>
@@ -98,6 +76,7 @@
     <script src="{{ asset('bundles/app/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('bundles/app/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('bundles/app/js/clean-blog.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/lightbox.min.js') }}"></script>
 {% endblock %}
 
 </body>

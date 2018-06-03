@@ -1,0 +1,29 @@
+{% extends 'AppBundle:client:standard_layout.html.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mx-auto">
+                <div class="page-image"
+                     style="background-image: url('{% path gallery.galleryHasMedias[0].media, 'big' %}')">
+                    <div class="overlay"></div>
+                    <div class="site-heading">
+                        <h1>{{ gallery.name }}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row posts">
+            {% for image in gallery.galleryHasMedias %}
+                <div class="col-md-3">
+                    <div class="post-preview box-shadow">
+                        <a href="{% path image.media, 'big' %}" data-lightbox="{{ gallery.name }}">
+                            <div class="post-image"
+                                 style="background-image: url('{% path image.media, 'small' %}');"></div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

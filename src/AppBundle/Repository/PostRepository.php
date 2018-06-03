@@ -50,4 +50,18 @@ class PostRepository extends EntityRepository
 
         return $query->getResult();
     }
+
+    public function findPost(string $collection, string $slug)
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        $query = $qb->leftJoin('p.collection', 'pc')
+            ->where($qb->expr()->in('pc.slug', ':collection'))
+            ->andWhere($qb->expr()->in('p.slug', ':slug'))
+            ->setParameter('collection', $collection)
+            ->setParameter('slug', $slug)
+            ->getQuery();
+
+        return $query->getSingleResult();
+    }
 }

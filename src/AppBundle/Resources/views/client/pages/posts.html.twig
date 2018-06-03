@@ -1,11 +1,15 @@
 {% extends 'AppBundle:client:standard_layout.html.twig' %}
 
-{% block header %}
-    <header class="masthead" style="background-image: url('{{ asset('img/home-bg.jpg') }}')">
-        <div class="overlay"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-md-10 mx-auto">
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mx-auto">
+                <div class="page-image" style="background-image: url('{% path page.mainImage, 'big' %}')">
+                    {% if page.mainImage is empty %}
+                        <div class="overlay-2"></div>
+                    {% else %}
+                        <div class="overlay"></div>
+                    {% endif %}
                     <div class="site-heading">
                         <h1>{{ page.title }}</h1>
                         <span class="subheading">{{ page.subtitle }}</span>
@@ -13,31 +17,52 @@
                 </div>
             </div>
         </div>
-    </header>
-{% endblock %}
+        <div class="row posts">
+            {% for post in posts %}
+                {% set title_rows = (post.title|length / 15) %}
+                {% if title_rows < 1 %}
+                    {% set abs_len = 280 %}
+                {% elseif title_rows < 2 %}
+                    {% set abs_len = 230 %}
+                {% elseif title_rows < 3 %}
+                    {% set abs_len = 200 %}
+                {% else %}
+                    {% set abs_len = 130 %}
+                {% endif %}
+                <div class="col-md-4">
+                    <div class="post-preview box-shadow">
+                        <a href="{{ url('post', { 'collection': post.collection.slug, 'slug': post.slug }) }}">
+                            {% if post.image is not empty %}
+                                <div class="post-image"
+                                     style="background-image: url('{% path post.image, 'small' %}');"></div>
+                            {% else %}
+                                <div class="post-image">
+                                    <b>{{ post.collection }}</b>
+                                </div>
+                            {% endif %}
+                            <div class="post-content">
+                                <h2 class="post-title">
+                                    {{ post.title|length > 60 ? post.title|slice(0, 57) ~ '...' : post.title }}
+                                </h2>
 
-{% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto">
-                {% for post in posts %}
-                    <div class="post-preview">
-                        <a href="{{ url('sonata_news_view', { 'permalink': sonata_news_permalink(post) }) }}">
-                            <h2 class="post-title">
-                                {{ post.title }}
-                            </h2>
-                            <h3 class="post-subtitle">
-                                {{ post.abstract }}
-                            </h3>
-                            <p class="post-meta">
-                                <span class="sonata-blog-post-author">{{ 'archive_author'|trans({'%author%': post.author }, 'SonataNewsBundle') }}</span> |
-                                <i class="icon-calendar"></i>{{ post.publicationDateStart | format_date }}</p>
+                                <h3 class="post-subtitle">
+                                    {{ post.abstract|length > abs_len ? post.abstract|slice(0, abs_len) ~ '...' : post.abstract }}
+                                </h3>
+                            </div>
+                            <div class="post-footer">
+                                <p class="post-meta">
+                                    {% if post.author is not empty %}
+                                        <span class="sonata-blog-post-author">{{ 'archive_author'|trans({'%author%': post.author }, 'SonataNewsBundle') }}</span> |
+                                    {% endif %}
+                                    <i class="icon-calendar"></i>{{ post.publicationDateStart | format_date }}</p>
+                            </div>
                         </a>
                     </div>
-                {% endfor %}
-                <div class="clearfix">
-                    <a class="btn btn-primary float-right" href="#">Starší příspěvky &rarr;</a>
                 </div>
+            {% endfor %}
+
+            <div class="clearfix">
+                {#<a class="btn btn-primary float-right" href="#">Starší příspěvky &rarr;</a>#}
             </div>
         </div>
     </div>

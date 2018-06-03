@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file source-language="en" target-language="cs" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>Event page</source>
+                <target>Stránka s událostmi (výstavami)</target>
+            </trans-unit>
+
+            <trans-unit id="2">
+                <source>Name</source>
+                <target>Název</target>
+            </trans-unit>
+
+            <trans-unit id="3">
+                <source>Title</source>
+                <target>Titulek</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Subtitle</source>
+                <target>Podtitulek</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>Content</source>
+                <target>Obsah</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>Events</source>
+                <target>Události</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>Main Image</source>
+                <target>Hlavní obrázek</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>Page List</source>
+                <target>Seznam stránek</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>Page Create</source>
+                <target>Vytvořit stránku</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>CMS</source>
+                <target>CMS</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>Pages</source>
+                <target>Stránky</target>
+            </trans-unit>
+            <trans-unit id="12">
+                <source>Blog</source>
+                <target>Blog</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>Subtitle</source>
+                <target>Podtitulek</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>From</source>
+                <target>Od</target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>To</source>
+                <target>Do</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>Created At</source>
+                <target>Vytvořeno</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>Updated At</source>
+                <target>Upraveno</target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>Action</source>
+                <target>Akce</target>
+            </trans-unit>
+            <trans-unit id="19">
+                <source>Galleries</source>
+                <target>Galerie</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>Event List</source>
+                <target>Seznam událostí</target>
+            </trans-unit>
+            <trans-unit id="21">
+                <source>Event Create</source>
+                <target>Vytvořit událost</target>
+            </trans-unit>
+            <trans-unit id="22">
+                <source>Place</source>
+                <target>Místo konání</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -32,6 +32,7 @@ sonata_admin:
                 items:
                     - admin.page
                     - admin.event
+                    - admin.member
                 roles:
                     - ROLE_ADMIN
 
@@ -43,7 +44,7 @@ sonata_admin:
                     - admin.post
                     - admin.comment
                 roles:
-                    - ROLE_ADMIN
+                    - ROLE_CONTENT_MANAGER
 
             admin.group.classification:
                 label: Classification
@@ -65,7 +66,7 @@ sonata_admin:
                     - admin.media
                     - admin.gallery
                 roles:
-                    - ROLE_ADMIN
+                    - ROLE_CONTENT_MANAGER
 
             admin.group.user:
                 label: Users

@@ -23,15 +23,15 @@ class GalleryItem extends BaseGalleryHasMedia
 
     /**
      * @var MediaInterface
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Media", inversedBy="galleryHasMedias")
-     * @ORM\JoinColumn(name="media_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Media", inversedBy="galleryHasMedias", cascade={"persist", "merge"})
+     * @ORM\JoinColumn(name="media_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $media;
 
     /**
      * @var GalleryInterface
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Gallery", inversedBy="galleryHasMedias")
-     * @ORM\JoinColumn(name="gallery_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Gallery", inversedBy="galleryHasMedias", cascade={"persist", "merge"})
+     * @ORM\JoinColumn(name="gallery_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $gallery;
 

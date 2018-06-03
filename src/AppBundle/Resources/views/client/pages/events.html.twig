@@ -1,0 +1,36 @@
+{% extends 'AppBundle:client:standard_layout.html.twig' %}
+
+{% block content %}
+    <div class="container">
+    <div class="row">
+        <div class="col-md-12 mx-auto">
+            <div class="page-image" style="background-image: url('{% path page.mainImage, 'big' %}')">
+                {% if page.mainImage is empty %}
+                    <div class="overlay-2"></div>
+                {% else %}
+                    <div class="overlay"></div>
+                {% endif %}
+                <div class="site-heading">
+                    <h1>{{ page.title }}</h1>
+                    <span class="subheading">{{ page.subtitle }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 mx-auto">
+            <div class="timeline">
+                {% for event in page.events %}
+                    <a href="{{ path('event', {'slug':event.slug}) }}"
+                       class="timeline-container {% if loop.index is divisible by(2) %}right{% else %}left{% endif %}">
+                        <div class="timeline-content box-shadow">
+                            <h3>{{ event.name }}</h3>
+                            <p class="date">{{ event.from|date('j. n. Y') }} - {{ event.to|date('j. n. Y') }}</p>
+                            <p class="place">{{ event.place }}</p>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

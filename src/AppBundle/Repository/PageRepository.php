@@ -30,7 +30,7 @@ class PageRepository extends EntityRepository
         $query = $qb
             ->where($qb->expr()->notIn('p.type', ':values'))
             ->orderBy('p.position')
-            ->setParameter('values', [Page::TYPE_EVENT, Page::TYPE_HOMEPAGE])
+            ->setParameter('values', [Page::TYPE_HOMEPAGE])
             ->getQuery();
 
         return $query->getResult();

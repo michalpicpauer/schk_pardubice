@@ -92,16 +92,30 @@ form {
     background-color: #fff;
 }
 
-#mainNav {
+.nav-placeholder {
+    display: block;
     position: absolute;
-    border-bottom: 1px solid #ecd3e7;
-    background-color: #ecd3e7;
-    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #282a2b;
+    border-bottom: 1px solid #4b4c4d;
+    height: 57px;
+    width: 100%;
 }
 
+#mainNav {
+    position: absolute;
+    background-color: #282a2b;
+    border-bottom: 1px solid #4b4c4d;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
 #mainNav .navbar-brand {
-    font-weight: 800;
-    color: #212529;
+    color: #ffffff;
+    font-style: oblique;
+}
+#mainNav .navbar-brand > img {
+    display: block;
+    position: absolute;
+    height: 80px;
+    top: 0;
 }
 
 #mainNav .navbar-toggler {
@@ -109,7 +123,7 @@ form {
     font-weight: 800;
     padding: 13px;
     text-transform: uppercase;
-    color: #212529;
+    color: #9ea7af;
 }
 
 #mainNav .navbar-nav > li.nav-item > a {
@@ -117,6 +131,8 @@ form {
     font-weight: 800;
     letter-spacing: 1px;
     text-transform: uppercase;
+    color: #9ea7af;
+    text-align: right;
 }
 
 @media only screen and (min-width: 992px) {
@@ -124,22 +140,20 @@ form {
         border-bottom: 1px solid transparent;
     }
 
-    #mainNav .navbar-brand {
-        padding: 10px 20px;
-        color: #212529;
-    }
-
-    #mainNav .navbar-brand:focus, #mainNav .navbar-brand:hover {
-        color: rgba(33, 37, 41, 0.8);
+    #mainNav .navbar-brand > img {
+        display: block;
+        position: absolute;
+        height: 80px;
+        top: 0;
     }
 
     #mainNav .navbar-nav > li.nav-item > a {
         padding: 10px 20px;
-        color: #212529;
+        color: #9ea7af;
     }
 
     #mainNav .navbar-nav > li.nav-item > a:focus, #mainNav .navbar-nav > li.nav-item > a:hover {
-        color: rgba(33, 37, 41, 0.8);
+        color: rgba(215, 61, 126, 0.8);
     }
 }
 
@@ -160,24 +174,20 @@ form {
     #mainNav.is-fixed {
         /* when the user scrolls down, we hide the header right above the viewport */
         position: fixed;
-        top: -67px;
+        top: -57px;
         -webkit-transition: -webkit-transform 0.2s;
         -moz-transition: -moz-transform 0.2s;
         transition: transform 0.2s;
-        border-bottom: 1px solid #ecd3e7;
-        background-color: rgba(236, 211, 231, 0.9);
+        border-bottom: 1px solid #4b4c4d;
+        background-color: rgba(40, 42, 43, 0.6);
     }
 
-    #mainNav.is-fixed .navbar-brand {
-        color: #212529;
-    }
-
-    #mainNav.is-fixed .navbar-brand:focus, #mainNav.is-fixed .navbar-brand:hover {
-        color: #d73d7e;
+    #mainNav.is-fixed .navbar-brand > img {
+        height: 55px;
     }
 
     #mainNav.is-fixed .navbar-nav > li.nav-item > a {
-        color: #212529;
+        color: #9ea7af;
     }
 
     #mainNav.is-fixed .navbar-nav > li.nav-item > a:focus, #mainNav.is-fixed .navbar-nav > li.nav-item > a:hover {
@@ -196,38 +206,52 @@ form {
 
 header.masthead {
     margin-bottom: 25px;
-    background: no-repeat center center;
-    background-color: #adb5bd;
     background-attachment: scroll;
     position: relative;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
 }
 
-header.masthead .overlay {
+.overlay {
     position: absolute;
     top: 0;
     left: 0;
     height: 100%;
     width: 100%;
     background-color: #212529;
+    opacity: 0.2;
+}
+
+.overlay-2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: -moz-radial-gradient(center, ellipse cover, #8E8E8E 0%, #f0f0f0 50%, #f0f0f0 100%); /* FF3.6-15 */
+    background: -webkit-radial-gradient(center, ellipse cover, #8E8E8E 0%,#f0f0f0 50%,#f0f0f0 100%); /* Chrome10-25,Safari5.1-6 */
+    background: radial-gradient(ellipse at center, #8E8E8E 0%,#f0f0f0 50%,#f0f0f0 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     opacity: 0.4;
 }
 
 header.masthead .page-heading,
 header.masthead .post-heading,
 header.masthead .site-heading {
-    padding: 200px 0 150px;
-    color: #f8f9fa;
+    padding: 100px 0 20px;
+    /*color: #f8f9fa;*/
+}
+
+header.masthead .logo {
+    padding: 60px 0 20px;
 }
 
 @media only screen and (min-width: 768px) {
     header.masthead .page-heading,
     header.masthead .post-heading,
     header.masthead .site-heading {
-        padding: 200px 0;
+        padding: 100px 0 20px;
+    }
+
+    header.masthead .logo {
+        padding: 60px 0 20px;
     }
 }
 
@@ -239,6 +263,7 @@ header.masthead .site-heading {
 header.masthead .page-heading h1,
 header.masthead .site-heading h1 {
     font-size: 50px;
+    color: #d73d7e;
     margin-top: 0;
 }
 
@@ -297,23 +322,56 @@ header.masthead .post-heading .meta a {
     }
 }
 
+.logo {
+    text-align: center;
+}
+.logo > img {
+    width: 300px;
+}
+
+.text-box {
+    background: #ffffff;
+    padding: 5px 25px;
+    margin: 20px 0;
+}
+
+.page-image {
+    background: no-repeat center center;
+    background-attachment: scroll;
+    position: relative;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 300px;
+    margin-top: 55px;
+}
+
+.page-image .site-heading {
+    /*font-size: 50px;*/
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    color: #ffffff;
+    margin-top: 0;
+    padding: 100px 0 20px;
+}
+
+.posts {
+    margin: 30px -15px;
+}
+
 .post-preview {
-    background-color: #f5e8ed;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-    -webkit-box-shadow: rgba(0,0,0,.1) 0 0 7px;
-    -moz-box-shadow: rgba(0,0,0,.1) 0 0 7px;
-    box-shadow: rgba(0,0,0,.1) 0 0 7px;
+    background-color: #ffffff;
     -webkit-transition: all 0.2s;
     -moz-transition: all 0.2s;
     transition: all 0.2s;
+    margin: 15px auto;
 }
 
 .post-preview > a {
     color: #212529;
     display: block;
-    padding: 25px;
 }
 
 .post-preview:focus, .post-preview:hover {
@@ -332,17 +390,54 @@ header.masthead .post-heading .meta a {
     text-decoration: none;
 }
 
-.post-preview > a > .post-title {
-    font-size: 30px;
+.post-preview > a > .post-image {
+    height: 200px;
+    overflow: hidden;
+    z-index: 1;
+    position: relative;
+    background: #ffffff no-repeat center;
+    background: -moz-radial-gradient(center, ellipse cover, #e8eae8 0%, #ffffff 63%, #ffffff 100%) no-repeat center;
+    background: -webkit-radial-gradient(center, ellipse cover, #e8eae8 0%,#ffffff 63%,#ffffff 100%) no-repeat center;
+    background: radial-gradient(ellipse at center, #e8eae8 0%,#ffffff 63%,#ffffff 100%) no-repeat center;
+    text-align: center;
+    padding-top: 80px;
+    color: #d73d7e;
 }
 
-.post-preview > a > .post-subtitle {
-    font-size: 22px;
+.post-preview > a > .post-content {
+    position: relative;
+    padding: 25px;
+    overflow: hidden;
+    text-align: justify;
+    overflow-wrap: break-word;
+    height: 275px;
+}
+
+.post-preview > a > .gallery {
+    position: relative;
+    padding: 25px;
+    overflow: hidden;
+    text-align: center;
+    font-size: 28px;
+}
+
+.post-preview > a > .post-content > .post-title {
+    font-size: 28px;
+    text-align: left;
+}
+
+.post-preview > a > .post-content > .post-subtitle {
+    font-size: 18px;
     font-weight: 300;
     margin: 0 0 10px;
+    text-overflow: ellipsis;
 }
 
-.post-preview > a > .post-meta {
+.post-preview > a > .post-footer {
+    padding: 10px 25px;
+}
+
+.post-preview > a > .post-footer > .post-meta {
     font-size: 18px;
     font-style: italic;
     margin: 0;
@@ -428,12 +523,23 @@ form .form-group:first-child .floating-label-form-group {
 }
 
 footer {
-    padding: 50px 0 65px;
+    background-color: #282a2b;
+    border-color: #4b4c4d;
+    border-top-width: 1px;
+    padding: 30px 0 35px;
 }
 
 footer .list-inline {
     margin: 0;
     padding: 0;
+}
+
+footer .list-inline a {
+    color: #d73d7e;
+}
+
+footer .list-inline a:hover {
+    color: #f8d7da;
 }
 
 footer .copyright {
@@ -466,4 +572,169 @@ footer .copyright {
 .btn-lg {
     font-size: 16px;
     padding: 25px 35px;
+}
+
+
+.box-shadow {
+    -webkit-box-shadow: rgba(0,0,0,.1) 0 0 7px;
+    -moz-box-shadow: rgba(0,0,0,.1) 0 0 7px;
+    box-shadow: rgba(0,0,0,.1) 0 0 7px;
+}
+
+/* The actual timeline (the vertical ruler) */
+.timeline {
+    position: relative;
+    margin: 30px auto;
+}
+
+/* The actual timeline (the vertical ruler) */
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    background-color: white;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -3px;
+}
+
+/* Container around content */
+.timeline-container {
+    padding: 10px 40px;
+    position: relative;
+    display: block;
+    background-color: inherit;
+    width: 50%;
+}
+.timeline a:hover {
+    text-decoration: none;
+}
+.timeline-container:hover .timeline-content {
+    background-color: #f8d7da;
+    text-decoration: none;
+    color: #000;
+}
+
+.timeline-container:hover:after {
+    background-color: #d73d7e;
+}
+
+.left:hover:before {
+    border: medium solid #f8d7da;
+    border-width: 10px 0 10px 10px;
+    border-color: transparent transparent transparent #f8d7da;
+}
+
+.right:hover:before {
+    border: medium solid #f8d7da;
+    border-width: 10px 10px 10px 0;
+    border-color: transparent #f8d7da transparent transparent;
+}
+
+/* The circles on the timeline */
+.timeline-container::after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: -12px;
+    background-color: white;
+    border: 4px solid #d73d7e;
+    top: 18px;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+/* Place the container to the left */
+.left {
+    left: 0;
+}
+
+/* Place the container to the right */
+.right {
+    left: 50%;
+}
+
+/* Add arrows to the left container (pointing right) */
+.left::before {
+    content: " ";
+    height: 0;
+    position: absolute;
+    top: 22px;
+    width: 0;
+    z-index: 1;
+    right: 30px;
+    border: medium solid white;
+    border-width: 10px 0 10px 10px;
+    border-color: transparent transparent transparent white;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    transition: all 0.2s;
+}
+
+/* Add arrows to the right container (pointing left) */
+.right::before {
+    content: " ";
+    height: 0;
+    position: absolute;
+    top: 22px;
+    width: 0;
+    z-index: 1;
+    left: 30px;
+    border: medium solid white;
+    border-width: 10px 10px 10px 0;
+    border-color: transparent white transparent transparent;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    transition: all 0.2s;
+}
+
+/* Fix the circle for containers on the right side */
+.right::after {
+    left: -12px;
+}
+
+/* The actual content */
+.timeline-content {
+    padding: 20px 30px;
+    background-color: white;
+    position: relative;
+    border-radius: 6px;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    transition: all 0.2s;
+}
+
+/* Media queries - Responsive timeline on screens less than 600px wide */
+@media screen and (max-width: 600px) {
+    /* Place the timelime to the left */
+    .timeline::after {
+        left: 31px;
+    }
+
+    /* Full-width containers */
+    .timeline-container {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+    }
+
+    /* Make sure that all arrows are pointing leftwards */
+    .timeline-container::before {
+        left: 60px;
+        border: medium solid white;
+        border-width: 10px 10px 10px 0;
+        border-color: transparent white transparent transparent;
+    }
+
+    /* Make sure all circles are at the same spot */
+    .left::after, .right::after {
+        left: 15px;
+    }
+
+    /* Make all right containers behave like the left ones */
+    .right {
+        left: 0%;
+    }
 }

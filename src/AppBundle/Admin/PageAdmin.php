@@ -32,19 +32,7 @@ class PageAdmin extends BaseAdmin
     protected function configureRoutes(RouteCollection $collection)
     {
         parent::configureRoutes($collection);
-        $collection->add('move', $this->getRouterIdParameter().'/move/{position}');
-    }
-
-    public function createQuery($context = 'list')
-    {
-        /** @var QueryBuilder $query */
-        $query = parent::createQuery();
-
-        $alias = $query->getRootAliases()[0];
-
-        $query->where($query->expr()->neq($alias . '.type', $query->expr()->literal(Page::TYPE_EVENT)));
-
-        return $query;
+        $collection->add('move', $this->getRouterIdParameter() . '/move/{position}');
     }
 
     protected function configureFormFields(FormMapper $form)
@@ -61,10 +49,13 @@ class PageAdmin extends BaseAdmin
                 $this->buildGalleryPageForm($form);
                 break;
             case Page::TYPE_CONTACT:
-                $this->buildFullPageForm($form);
+                $this->buildContactsPageForm($form);
                 break;
             case Page::TYPE_EVENTS:
                 $this->buildEventsPageForm($form);
+                break;
+            case Page::TYPE_MEMBERS:
+                $this->buildMembersPageForm($form);
                 break;
             default:
                 $this->buildFullPageForm($form);
@@ -76,8 +67,8 @@ class PageAdmin extends BaseAdmin
 
 
         $list
-            ->addIdentifier('name', null, ['label' => 'form.name'])
-            ->add('type', null, ['label' => 'form.type']);
+            ->addIdentifier('name', null)
+            ->add('type', null, ['template' => 'AppBundle:admin/pages:page_type.html.twig']);
 
         parent::configureListFields($list);
 
@@ -88,7 +79,7 @@ class PageAdmin extends BaseAdmin
                     'edit'   => [],
                     'delete' => [],
                     'move'   => [
-                        'template' => '@PixSortableBehavior/Default/_sort_drag_drop.html.twig',
+                        'template'                  => '@PixSortableBehavior/Default/_sort_drag_drop.html.twig',
                         'enable_top_bottom_buttons' => false,
                     ]
                 ]
@@ -98,7 +89,7 @@ class PageAdmin extends BaseAdmin
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
         $filter
-            ->add('name', null, ['label' => 'form.name']);
+            ->add('name');
 
         parent::configureDatagridFilters($filter);
     }
@@ -135,40 +126,39 @@ class PageAdmin extends BaseAdmin
             ->with('Default page')
             ->add('name', TextType::class)
             ->add('title', TextType::class)
-            ->add('subtitle', TextType::class)
+            ->add('subtitle', TextType::class, ['required' => false])
             ->add('content', FormatterType::class, [
                 'required'               => false,
                 'event_dispatcher'       => $form->getFormBuilder()->getEventDispatcher(),
                 'format_field'           => 'contentFormatter',
+                'ckeditor_context'       => 'default',
                 'source_field'           => 'rawContent',
-                'target_field'           => 'content',
-                'ckeditor_toolbar_icons' => $this->getCkEditorToolbarIcons()
+                'target_field'           => 'content'
             ])
-            ->add('collections', ModelAutocompleteType::class, [
-                'property' => 'name',
-                'multiple' => 'true',
+            ->add('galleries', ModelType::class, [
                 'required' => false,
+                'multiple' => true
             ])
-            ->add('galleries', ModelAutocompleteType::class, [
-                'property' => 'name',
-                'multiple' => 'true',
+            ->add(
+                'mainImage',
+                ModelListType::class,
+                $this->getImageFieldOptions($this->getSubject()->getMainImage()),
+                [
+                    'link_parameters' => [
+                        'provider' => 'sonata.media.provider.image',
+                        'context'  => 'default',
+                    ],
+                ]
+            )
+            ->add('events', ModelType::class, [
                 'required' => false,
-            ])
-            ->add('events', CollectionType::class, [
                 'by_reference' => false,
-            ], [
-                'edit'        => 'inline',
-                'inline'      => 'table',
-                'sortable'    => 'priority',
-                'placeholder' => 'No events added'
+                'multiple' => true
             ])
-            ->add('mainImage', ModelListType::class, [
+            ->add('members', ModelType::class, [
                 'required' => false,
-            ], [
-                'link_parameters' => [
-                    'provider' => 'sonata.media.provider.image',
-                    'context'  => 'default',
-                ],
+                'by_reference' => false,
+                'multiple' => true
             ])
             ->end();
     }
@@ -179,24 +169,27 @@ class PageAdmin extends BaseAdmin
             ->with('Homepage')
             ->add('name')
             ->add('title')
-            ->add('subtitle')
+            ->add('subtitle', TextType::class, ['required' => false])
             ->add('content', FormatterType::class, [
                 'required'               => false,
                 'event_dispatcher'       => $form->getFormBuilder()->getEventDispatcher(),
                 'format_field'           => 'contentFormatter',
+                'ckeditor_context'       => 'default',
                 'source_field'           => 'rawContent',
-                'target_field'           => 'content',
-                'ckeditor_toolbar_icons' => $this->getCkEditorToolbarIcons()
+                'target_field'           => 'content'
             ])
             ->add('numberOfNews')
-            ->add('mainImage', ModelListType::class, [
-                'required' => false,
-            ], [
-                'link_parameters' => [
-                    'provider' => 'sonata.media.provider.image',
-                    'context'  => 'default',
-                ],
-            ])
+            ->add(
+                'mainImage',
+                ModelListType::class,
+                $this->getImageFieldOptions($this->getSubject()->getMainImage()),
+                [
+                    'link_parameters' => [
+                        'provider' => 'sonata.media.provider.image',
+                        'context'  => 'default',
+                    ],
+                ]
+            )
             ->end();
     }
 
@@ -206,19 +199,22 @@ class PageAdmin extends BaseAdmin
             ->with('Posts page')
             ->add('name')
             ->add('title')
-            ->add('subtitle', null, ['required' => false])
+            ->add('subtitle', TextType::class, ['required' => false])
             ->add('collections', ModelType::class, [
                 'multiple' => 'true',
                 'required' => false,
             ])
-            ->add('mainImage', ModelListType::class, [
-                'required' => false,
-            ], [
-                'link_parameters' => [
-                    'provider' => 'sonata.media.provider.image',
-                    'context'  => 'default',
-                ],
-            ])
+            ->add(
+                'mainImage',
+                ModelListType::class,
+                $this->getImageFieldOptions($this->getSubject()->getMainImage()),
+                [
+                    'link_parameters' => [
+                        'provider' => 'sonata.media.provider.image',
+                        'context'  => 'default',
+                    ],
+                ]
+            )
             ->end();
     }
 
@@ -228,29 +224,30 @@ class PageAdmin extends BaseAdmin
             ->with('Gallery page')
             ->add('name')
             ->add('title')
-            ->add('subtitle')
+            ->add('subtitle', TextType::class, ['required' => false])
             ->add('content', FormatterType::class, [
                 'required'               => false,
                 'event_dispatcher'       => $form->getFormBuilder()->getEventDispatcher(),
                 'format_field'           => 'contentFormatter',
+                'ckeditor_context'       => 'default',
                 'source_field'           => 'rawContent',
-                'target_field'           => 'content',
-                'ckeditor_toolbar_icons' => $this->getCkEditorToolbarIcons()
+                'target_field'           => 'content'
             ])
-            ->add('galleries', ModelAutocompleteType::class, [
-                'property'             => 'name',
-                'multiple'             => 'true',
-                'minimum_input_length' => 1,
-                'required'             => false,
-            ])
-            ->add('mainImage', ModelListType::class, [
+            ->add('galleries', ModelType::class, [
                 'required' => false,
-            ], [
-                'link_parameters' => [
-                    'provider' => 'sonata.media.provider.image',
-                    'context'  => 'default',
-                ],
+                'multiple' => true
             ])
+            ->add(
+                'mainImage',
+                ModelListType::class,
+                $this->getImageFieldOptions($this->getSubject()->getMainImage()),
+                [
+                    'link_parameters' => [
+                        'provider' => 'sonata.media.provider.image',
+                        'context'  => 'default',
+                    ],
+                ]
+            )
             ->end();
     }
 
@@ -260,31 +257,94 @@ class PageAdmin extends BaseAdmin
             ->with('Events page')
             ->add('name')
             ->add('title')
-            ->add('subtitle')
+            ->add('subtitle', TextType::class, ['required' => false])
             ->add('content', FormatterType::class, [
                 'required'               => false,
                 'event_dispatcher'       => $form->getFormBuilder()->getEventDispatcher(),
                 'format_field'           => 'contentFormatter',
+                'ckeditor_context'       => 'default',
                 'source_field'           => 'rawContent',
-                'target_field'           => 'content',
-                'ckeditor_toolbar_icons' => $this->getCkEditorToolbarIcons()
+                'target_field'           => 'content'
             ])
-            ->add('events', CollectionType::class, [
-                'by_reference' => false,
-            ], [
-                'edit'        => 'inline',
-                'inline'      => 'table',
-                'sortable'    => 'priority',
-                'placeholder' => 'No events added'
-            ])
-            ->add('mainImage', ModelListType::class, [
+            ->add('events', ModelType::class, [
                 'required' => false,
-            ], [
-                'link_parameters' => [
-                    'provider' => 'sonata.media.provider.image',
-                    'context'  => 'default',
-                ],
+                'by_reference' => false,
+                'multiple' => true
             ])
+            ->add(
+                'mainImage',
+                ModelListType::class,
+                $this->getImageFieldOptions($this->getSubject()->getMainImage()),
+                [
+                    'link_parameters' => [
+                        'provider' => 'sonata.media.provider.image',
+                        'context'  => 'default',
+                    ],
+                ]
+            )
+            ->end();
+    }
+
+    private function buildMembersPageForm(FormMapper $form)
+    {
+        $form
+            ->with('Members page')
+            ->add('name')
+            ->add('title')
+            ->add('subtitle', TextType::class, ['required' => false])
+            ->add('content', FormatterType::class, [
+                'required'               => false,
+                'event_dispatcher'       => $form->getFormBuilder()->getEventDispatcher(),
+                'format_field'           => 'contentFormatter',
+                'ckeditor_context'       => 'default',
+                'source_field'           => 'rawContent',
+                'target_field'           => 'content'
+            ])
+            ->add('members', ModelType::class, [
+                'required' => false,
+                'by_reference' => false,
+                'multiple' => true
+            ])
+            ->add(
+                'mainImage',
+                ModelListType::class,
+                $this->getImageFieldOptions($this->getSubject()->getMainImage()),
+                [
+                    'link_parameters' => [
+                        'provider' => 'sonata.media.provider.image',
+                        'context'  => 'default',
+                    ],
+                ]
+            )
+            ->end();
+    }
+
+    private function buildContactsPageForm(FormMapper $form)
+    {
+        $form
+            ->with('Contacts page')
+            ->add('name')
+            ->add('title')
+            ->add('subtitle', TextType::class, ['required' => false])
+            ->add('content', FormatterType::class, [
+                'required'               => false,
+                'event_dispatcher'       => $form->getFormBuilder()->getEventDispatcher(),
+                'format_field'           => 'contentFormatter',
+                'ckeditor_context'       => 'default',
+                'source_field'           => 'rawContent',
+                'target_field'           => 'content'
+            ])
+            ->add(
+                'mainImage',
+                ModelListType::class,
+                $this->getImageFieldOptions($this->getSubject()->getMainImage()),
+                [
+                    'link_parameters' => [
+                        'provider' => 'sonata.media.provider.image',
+                        'context'  => 'default',
+                    ],
+                ]
+            )
             ->end();
     }
 }

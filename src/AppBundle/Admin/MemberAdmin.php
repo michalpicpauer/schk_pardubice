@@ -3,7 +3,7 @@
 namespace AppBundle\Admin;
 
 use AppBundle\Entity\Collection;
-use AppBundle\Entity\Event;
+use AppBundle\Entity\Member;
 use AppBundle\Entity\Page;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
@@ -21,10 +21,11 @@ use Sonata\CoreBundle\Form\Type\DateTimePickerType;
 use Sonata\FormatterBundle\Form\Type\FormatterType;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 
-class EventAdmin extends BaseAdmin
+class MemberAdmin extends BaseAdmin
 {
-    const ROUTE = 'event';
+    const ROUTE = 'member';
 
     protected $baseRoutePattern = self::ROUTE;
 
@@ -43,34 +44,22 @@ class EventAdmin extends BaseAdmin
     protected function configureFormFields(FormMapper $form)
     {
         $form
-            ->with('Event page')
+            ->with('Member')
             ->add('name')
-            ->add('from', DatePickerType::class)
-            ->add('to', DatePickerType::class)
-            ->add('place', null, ['required' => false])
-            ->add('content', FormatterType::class, [
-                'required'               => false,
-                'event_dispatcher'       => $form->getFormBuilder()->getEventDispatcher(),
-                'format_field'           => 'contentFormatter',
-                'source_field'           => 'rawContent',
-                'target_field'           => 'content',
-                'ckeditor_toolbar_icons' => $this->getCkEditorToolbarIcons()
-            ])
-            ->add('galleries', ModelType::class, [
-                'multiple' => 'true',
-                'required' => false,
-            ])
-            ->add(
-                'mainImage',
-                ModelListType::class,
-                $this->getImageFieldOptions($this->getSubject()->getMainImage()),
-                [
-                    'link_parameters' => [
-                        'provider' => 'sonata.media.provider.image',
-                        'context'  => 'default',
-                    ],
-                ]
-            )
+            ->add('breed')
+            ->add('catteryName')
+            ->add('web', UrlType::class)
+//            ->add(
+//                'mainImage',
+//                ModelListType::class,
+//                $this->getImageFieldOptions($this->getSubject()->getMainImage()),
+//                [
+//                    'link_parameters' => [
+//                        'provider' => 'sonata.media.provider.image',
+//                        'context'  => 'default',
+//                    ],
+//                ]
+//            )
             ->end();
     }
 
@@ -78,8 +67,9 @@ class EventAdmin extends BaseAdmin
     {
         $list
             ->addIdentifier('name')
-            ->add('from', 'date')
-            ->add('to', 'date');
+            ->add('breed')
+            ->add('catteryName')
+            ->add('web', 'url');
 
         parent::configureListFields($list);
     }
@@ -87,13 +77,15 @@ class EventAdmin extends BaseAdmin
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
         $filter
-            ->add('name');
+            ->add('name')
+            ->add('breed')
+            ->add('catteryName');
 
         parent::configureDatagridFilters($filter);
     }
 
     /**
-     * @param Event $object
+     * @param Member $object
      */
     public function prePersist($object)
     {

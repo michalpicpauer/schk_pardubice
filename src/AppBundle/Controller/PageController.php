@@ -8,7 +8,6 @@ use AppBundle\Manager\PostManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PageController extends Controller
@@ -92,14 +91,14 @@ class PageController extends Controller
             case Page::TYPE_EVENTS:
                 return $this->renderEvents($page);
                 break;
-            case Page::TYPE_EVENT:
-                return $this->renderEvent($page);
-                break;
             case Page::TYPE_CONTACT:
                 return $this->renderContacts($page);
                 break;
             case Page::TYPE_GALLERY:
                 return $this->renderGallery($page);
+                break;
+            case Page::TYPE_MEMBERS:
+                return $this->renderMembers($page);
                 break;
             default:
                 return $this->redirectToRoute('homepage');
@@ -108,25 +107,24 @@ class PageController extends Controller
 
     private function renderDefault(Page $page)
     {
-
+        return $this->render('AppBundle:client/pages:default.html.twig', [
+            'page' => $page
+        ]);
     }
 
     private function renderPosts(Page $page)
     {
         return $this->render('AppBundle:client/pages:posts.html.twig', [
-            'page'       => $page,
-            'posts'      => $this->postManager->getPosts($page->getCollections())
+            'page'  => $page,
+            'posts' => $this->postManager->getPosts($page->getCollections())
         ]);
     }
 
     private function renderEvents(Page $page)
     {
-
-    }
-
-    private function renderEvent(Page $page)
-    {
-
+        return $this->render('AppBundle:client/pages:events.html.twig', [
+            'page' => $page
+        ]);
     }
 
     private function renderContacts(Page $page)
@@ -138,6 +136,15 @@ class PageController extends Controller
 
     private function renderGallery(Page $page)
     {
+        return $this->render('AppBundle:client/pages:galleries.html.twig', [
+            'page' => $page
+        ]);
+    }
 
+    private function renderMembers(Page $page)
+    {
+        return $this->render('AppBundle:client/pages:members.html.twig', [
+            'page' => $page
+        ]);
     }
 }

@@ -1,0 +1,62 @@
+{% extends 'AppBundle:client:standard_layout.html.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mx-auto">
+                <div class="page-image" style="background-image: url('{% path event.mainImage, 'big' %}')">
+                    {% if event.mainImage is empty %}
+                        <div class="overlay-2"></div>
+                    {% else %}
+                        <div class="overlay"></div>
+                    {% endif %}
+                    <div class="site-heading">
+                        <h1>{{ event.name }}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mx-auto my-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Datum konání:</h5>{{ event.from|date('j. n. Y') }} - {{ event.to|date('j. n. Y') }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mx-auto my-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Místo konání:</h5> {{ event.place }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mx-auto">
+                {{ event.content|raw }}
+            </div>
+        </div>
+        {% if event.galleries is not empty %}
+            <div class="row posts">
+                <div class="col-md-12 mx-auto">
+                    <h5>Galerie:</h5>
+                </div>
+                {% for gallery in event.galleries %}
+                    {% for image in gallery.galleryHasMedias %}
+
+                        <div class="col-md-3">
+                            <div class="post-preview box-shadow">
+                                <a href="{% path image.media, 'big' %}" data-lightbox="{{ event.name }}">
+                                    <div class="post-image"
+                                         style="background-image: url('{% path image.media, 'small' %}');"></div>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

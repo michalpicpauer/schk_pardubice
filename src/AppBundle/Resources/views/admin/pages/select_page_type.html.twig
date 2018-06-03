@@ -13,7 +13,7 @@
             <div class="list-group">
                 {% for type in admin.pageTypes %}
                     <a href="{{ admin.generateUrl('create', {'page_type': type}) }}" class="list-group-item">
-                        {{ type }}
+                        {{ type|trans({}, 'AppPageBundle') }}
                     </a>
                 {% endfor %}
             </div>

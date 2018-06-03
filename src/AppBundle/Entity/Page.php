@@ -23,7 +23,7 @@ class Page extends BaseEntity
     const TYPE_EVENTS = 'events_page';
     const TYPE_CONTACT = 'contact_page';
     const TYPE_GALLERY = 'gallery_page';
-    const TYPE_EVENT = 'event';
+    const TYPE_MEMBERS = 'members_page';
 
     /**
      * @var string
@@ -127,18 +127,27 @@ class Page extends BaseEntity
     protected $galleries;
 
     /**
-     * @var Collection|PageEvent[]
+     * @var Event[]
      *
-     * @ORM\OneToMany(targetEntity="PageEvent", mappedBy="page", cascade={"persist", "merge", "remove"})
-     * @ORM\OrderBy({"priority" = "ASC"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Event", mappedBy="page", cascade={"persist", "merge", "remove"})
+     * @ORM\OrderBy({"from" = "DESC"})
      */
     protected $events;
+
+    /**
+     * @var Member[]
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Member", mappedBy="page", cascade={"persist", "merge", "remove"})
+     * @ORM\OrderBy({"name" = "ASC"})
+     */
+    protected $members;
 
     public function __construct()
     {
         $this->collections = new ArrayCollection();
         $this->galleries = new ArrayCollection();
         $this->events = new ArrayCollection();
+        $this->members = new ArrayCollection();
     }
 
     /**
@@ -370,7 +379,7 @@ class Page extends BaseEntity
     }
 
     /**
-     * @return Collection|PageEvent[]
+     * @return Collection|Event[]
      */
     public function getEvents()
     {
@@ -378,7 +387,7 @@ class Page extends BaseEntity
     }
 
     /**
-     * @param PageEvent $event
+     * @param Event $event
      */
     public function addEvent($event): void
     {
@@ -389,11 +398,38 @@ class Page extends BaseEntity
     }
 
     /**
-     * @param PageEvent $event
+     * @param Event $event
      */
     public function removeEvent($event): void
     {
         $this->events->removeElement($event);
+    }
+
+    /**
+     * @return Collection|Member[]
+     */
+    public function getMembers()
+    {
+        return $this->members;
+    }
+
+    /**
+     * @param Member $member
+     */
+    public function addMember($member): void
+    {
+        if (!$this->members->contains($member)) {
+            $member->setPage($this);
+            $this->members[] = $member;
+        }
+    }
+
+    /**
+     * @param Member $member
+     */
+    public function removeMember($member): void
+    {
+        $this->members->removeElement($member);
     }
 
     public function __toString()
@@ -414,6 +450,7 @@ class Page extends BaseEntity
             self::TYPE_CONTACT,
             self::TYPE_EVENTS,
             self::TYPE_GALLERY,
+            self::TYPE_MEMBERS,
         ];
     }
 }

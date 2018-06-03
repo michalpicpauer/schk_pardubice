@@ -6,6 +6,7 @@ use AppBundle\Entity\Post;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
+use Sonata\ClassificationBundle\Model\CollectionInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class PostManager
@@ -44,13 +45,13 @@ class PostManager
     /**
      * Returns specific amount of news or new posts for homepage.
      *
-     * @param Collection $collection
-     * @param int        $from
-     * @param int        $amount
+     * @param CollectionInterface[] $collections
+     * @param int                   $from
+     * @param int                   $amount
      *
      * @return Post[]
      */
-    public function getPosts(Collection $collections, int $from = 0, int $amount = 5)
+    public function getPosts($collections, int $from = 0, int $amount = 5)
     {
         $collectionsArray = [];
         foreach ($collections as $collection) {
@@ -58,5 +59,10 @@ class PostManager
         }
 
         return $this->em->getRepository(Post::class)->findPosts($collectionsArray, $from, $amount);
+    }
+
+    public function getPost($collection, $slug)
+    {
+        return $this->em->getRepository(Post::class)->findPost($collection, $slug);
     }
 }
