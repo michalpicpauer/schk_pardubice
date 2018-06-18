@@ -59,6 +59,8 @@ class EventAdmin extends BaseAdmin
             ->add('galleries', ModelType::class, [
                 'multiple' => 'true',
                 'required' => false,
+            ], [
+                'admin_code' => 'admin.gallery'
             ])
             ->add(
                 'mainImage',
@@ -69,6 +71,7 @@ class EventAdmin extends BaseAdmin
                         'provider' => 'sonata.media.provider.image',
                         'context'  => 'default',
                     ],
+                    'admin_code' => 'admin.media'
                 ]
             )
             ->end();

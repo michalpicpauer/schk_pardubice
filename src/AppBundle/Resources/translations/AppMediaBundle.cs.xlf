@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file source-language="en" target-language="cs" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="Media">
+                <source>Media</source>
+                <target>Media</target>
+            </trans-unit>
+            <trans-unit id="Media List">
+                <source>Media List</source>
+                <target>Seznam medií</target>
+            </trans-unit>
+            <trans-unit id="Gallery">
+                <source>Gallery</source>
+                <target>Galerie</target>
+            </trans-unit>
+            <trans-unit id="Gallery List">
+                <source>Gallery List</source>
+                <target>Seznam galerií</target>
+            </trans-unit>
+            <trans-unit id="Preview">
+                <source>Preview</source>
+                <target>Náhled</target>
+            </trans-unit>
+
+            <trans-unit id="Name">
+                <source>Name</source>
+                <target>Název</target>
+            </trans-unit>
+
+            <trans-unit id="Content Type">
+                <source>Content Type</source>
+                <target>Typ souboru</target>
+            </trans-unit>
+
+            <trans-unit id="Action">
+                <source>Action</source>
+                <target>Akce</target>
+            </trans-unit>
+
+            <trans-unit id="Gallery Has Medias">
+                <source>Gallery Has Medias</source>
+                <target>Seznam obrázků</target>
+            </trans-unit>
+
+            <trans-unit id="Position">
+                <source>Position</source>
+                <target>Pozice</target>
+            </trans-unit>
+
+            <trans-unit id="Binary Content">
+                <source>Binary Content</source>
+                <target>Soubor</target>
+            </trans-unit>
+
+            <trans-unit id="Content">
+                <source>Content</source>
+                <target>Popis galerie</target>
+            </trans-unit>
+
+            <trans-unit id="gallery_content_help">
+                <source>gallery_content_help</source>
+                <target>Popis galerie se zobrazí pouze pokud je zobrazen detail galerie (Kliknutím na galerii na stránce se seznamem galerií).</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

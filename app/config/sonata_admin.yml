@@ -5,6 +5,7 @@ sonata_admin:
         html5_validate: true
     templates:
         layout: AppBundle::admin/standard_layout.html.twig
+        outer_list_rows_mosaic: AppBundle::admin/CRUD/list_outer_rows_mosaic.html.twig
 #        list: AdminBundle:CRUD:base_list.html.twig
 #        user_block: SonataUserBundle:Admin/Core:user_block.html.twig
     dashboard:
@@ -34,7 +35,7 @@ sonata_admin:
                     - admin.event
                     - admin.member
                 roles:
-                    - ROLE_ADMIN
+                    - ROLE_CONTENT_MANAGER
 
             admin.group.blog:
                 label: Blog
@@ -42,7 +43,7 @@ sonata_admin:
                 icon: '<i class="fa fa-newspaper-o"></i>'
                 items:
                     - admin.post
-                    - admin.comment
+#                    - admin.comment
                 roles:
                     - ROLE_CONTENT_MANAGER
 

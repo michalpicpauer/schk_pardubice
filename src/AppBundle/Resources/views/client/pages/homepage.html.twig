@@ -29,19 +29,19 @@
         {% endif %}
 
         <div class="row posts">
-            <div class="col-md-12">
+            <div class="col-md-12 my-3">
                 <h4>Novinky a články</h4>
             </div>
             {% for post in posts %}
                 {% set title_rows = (post.title|length / 15) %}
                 {% if title_rows < 1 %}
-                    {% set abs_len = 280 %}
+                    {% set abs_len = 330 %}
                 {% elseif title_rows < 2 %}
-                    {% set abs_len = 230 %}
+                    {% set abs_len = 280 %}
                 {% elseif title_rows < 3 %}
-                    {% set abs_len = 200 %}
+                    {% set abs_len = 250 %}
                 {% else %}
-                    {% set abs_len = 130 %}
+                    {% set abs_len = 180 %}
                 {% endif %}
                 <div class="col-md-4">
                     <div class="post-preview box-shadow">

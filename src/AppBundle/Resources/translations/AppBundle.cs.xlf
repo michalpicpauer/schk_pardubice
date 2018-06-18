@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file source-language="en" target-language="cs" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="title">
+                <source>title</source>
+                <target>Upload medií</target>
+            </trans-unit>
+            <trans-unit id="drag_and_drop">
+                <source>drag_and_drop</source>
+                <target>Přetáhni a pusť</target>
+            </trans-unit>
+
+            <trans-unit id="open_filebrowser">
+                <source>open_filebrowser</source>
+                <target>Vybrat soubory</target>
+            </trans-unit>
+
+            <trans-unit id="uploading">
+                <source>uploading</source>
+                <target>Nahrávám</target>
+            </trans-unit>
+
+            <trans-unit id="canceled">
+                <source>canceled</source>
+                <target>Zrušeno</target>
+            </trans-unit>
+            <trans-unit id="upload_complete">
+                <source>upload_complete</source>
+                <target>Nahráno</target>
+            </trans-unit>
+            <trans-unit id="status">
+                <source>status</source>
+                <target>Stav</target>
+            </trans-unit>
+            <trans-unit id="waiting">
+                <source>waiting</source>
+                <target>Čeká</target>
+            </trans-unit>
+            <trans-unit id="back_to_list">
+                <source>back_to_list</source>
+                <target>Zpět do seznamu</target>
+            </trans-unit>
+
+        </body>
+    </file>
+</xliff>

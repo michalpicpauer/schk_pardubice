@@ -46,20 +46,9 @@ class MemberAdmin extends BaseAdmin
         $form
             ->with('Member')
             ->add('name')
-            ->add('breed')
-            ->add('catteryName')
-            ->add('web', UrlType::class)
-//            ->add(
-//                'mainImage',
-//                ModelListType::class,
-//                $this->getImageFieldOptions($this->getSubject()->getMainImage()),
-//                [
-//                    'link_parameters' => [
-//                        'provider' => 'sonata.media.provider.image',
-//                        'context'  => 'default',
-//                    ],
-//                ]
-//            )
+            ->add('breed', null, ['required' => false])
+            ->add('catteryName', null, ['required' => false])
+            ->add('web', UrlType::class, ['required' => false])
             ->end();
     }
 

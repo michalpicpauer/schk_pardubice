@@ -22,10 +22,10 @@ class PostAdmin extends BasePostAdmin
 
     protected $baseRouteName = self::ROUTE;
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
         $isHorizontal = 'horizontal' == $this->getConfigurationPool()->getOption('form_type');
-        $formMapper
+        $form
             ->with('group_post', [
                 'class' => 'col-md-8',
             ])
@@ -34,12 +34,12 @@ class PostAdmin extends BasePostAdmin
                 ModelAutocompleteType::class,
                 ['property' => 'username', 'minimum_input_length' => 0, 'required' => false]
             )
-            ->add('title', TextType::class, ['label' => 'form.label_title'])
+            ->add('title', TextType::class, ['label' => 'form.label_titles'])
             ->add('abstract', TextareaType::class, [
                 'attr' => ['rows' => 5],
             ])
             ->add('content', FormatterType::class, [
-                'event_dispatcher'     => $formMapper->getFormBuilder()->getEventDispatcher(),
+                'event_dispatcher'     => $form->getFormBuilder()->getEventDispatcher(),
                 'format_field'         => 'contentFormatter',
                 'source_field'         => 'rawContent',
                 'source_field_options' => [
@@ -49,6 +49,7 @@ class PostAdmin extends BasePostAdmin
                         'rows'  => 20
                     ],
                 ],
+                'ckeditor_toolbar_icons' => $this->getCkEditorToolbarIcons(),
                 'ckeditor_context'     => 'default',
                 'target_field'         => 'content',
                 'listener'             => true,
@@ -57,7 +58,6 @@ class PostAdmin extends BasePostAdmin
             ->with('group_status', [
                 'class' => 'col-md-4',
             ])
-            ->add('enabled', CheckboxType::class, ['required' => false])
             ->add(
                 'image',
                 ModelListType::class,
@@ -67,43 +67,34 @@ class PostAdmin extends BasePostAdmin
                         'provider' => 'sonata.media.provider.image',
                         'context'  => 'default',
                     ],
+                    'admin_code' => 'admin.media'
                 ]
             )
             ->add('publicationDateStart', DateTimePickerType::class, [
                 'dp_side_by_side' => true,
             ])
-            ->add('commentsCloseAt', DateTimePickerType::class, [
-                'dp_side_by_side' => true,
-                'required'        => false,
-            ])
-            ->add('commentsEnabled', CheckboxType::class, [
-                'required' => false,
-            ])
-//            ->add('commentsDefaultStatus', CommentStatusType::class, [
-//                'expanded' => true,
-//                'required' => false,
-//            ])
             ->end()
             ->with('group_classification', [
                 'class' => 'col-md-4',
             ])
-            ->add('tags', ModelType::class, [
-                'multiple' => 'true',
-                'required' => false,
-            ])
             ->add('collection', ModelType::class, [
-                'required' => false,
+                'required' => true,
+                'help' => 'collection_help',
             ])
+//            ->add('tags', ModelType::class, [
+//                'multiple' => 'true',
+//                'required' => false,
+//            ])
             ->end();
     }
 
     protected function getImageFieldOptions($image)
     {
-        $fileFieldOptions = ['required' => false];
+        $fileFieldOptions = ['required' => false, 'btn_edit' => false];
         if ($image) {
             $container = $this->getConfigurationPool()->getContainer();
             $pr = $container->get('sonata.media.provider.image');
-            $fileFieldOptions = ['required' => false];
+            $fileFieldOptions = ['required' => false, 'btn_edit' => false];
             if ($webPath = $pr->generatePublicUrl($image, 'admin')) {
                 $fileFieldOptions['help'] = '<img src="' . $webPath . '" class="admin-preview" />';
             }
@@ -111,4 +102,27 @@ class PostAdmin extends BasePostAdmin
 
         return $fileFieldOptions;
     }
+
+    /**
+     * Get default toolbar icons for CK editor.
+     *
+     * @return array
+     */
+    protected function getCkEditorToolbarIcons()
+    {
+        return [
+            1 => [
+                'Bold', 'Italic', 'Underline',
+                '-', 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord',
+                '-', 'Undo', 'Redo',
+                '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent',
+                '-', 'Blockquote',
+                '-', 'Image', 'Link', 'Unlink', 'Table'
+            ],
+            2 => [
+                'Maximize', 'Format', 'Source'
+            ]
+        ];
+    }
+
 }

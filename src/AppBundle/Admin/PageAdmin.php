@@ -57,6 +57,9 @@ class PageAdmin extends BaseAdmin
             case Page::TYPE_MEMBERS:
                 $this->buildMembersPageForm($form);
                 break;
+            case Page::TYPE_DEFAULT:
+                $this->buildDefaultPageForm($form);
+                break;
             default:
                 $this->buildFullPageForm($form);
         }
@@ -133,11 +136,14 @@ class PageAdmin extends BaseAdmin
                 'format_field'           => 'contentFormatter',
                 'ckeditor_context'       => 'default',
                 'source_field'           => 'rawContent',
-                'target_field'           => 'content'
+                'target_field'           => 'content',
+                'ckeditor_toolbar_icons' => $this->getCkEditorToolbarIcons()
             ])
             ->add('galleries', ModelType::class, [
                 'required' => false,
                 'multiple' => true
+            ], [
+                'admin_code' => 'admin.gallery'
             ])
             ->add(
                 'mainImage',
@@ -163,6 +169,37 @@ class PageAdmin extends BaseAdmin
             ->end();
     }
 
+    private function buildDefaultPageForm(FormMapper $form)
+    {
+        $form
+            ->with('Default page')
+            ->add('name', TextType::class)
+            ->add('title', TextType::class)
+            ->add('subtitle', TextType::class, ['required' => false])
+            ->add('content', FormatterType::class, [
+                'required'               => false,
+                'event_dispatcher'       => $form->getFormBuilder()->getEventDispatcher(),
+                'format_field'           => 'contentFormatter',
+                'ckeditor_context'       => 'default',
+                'source_field'           => 'rawContent',
+                'target_field'           => 'content',
+                'ckeditor_toolbar_icons' => $this->getCkEditorToolbarIcons()
+            ])
+            ->add(
+                'mainImage',
+                ModelListType::class,
+                $this->getImageFieldOptions($this->getSubject()->getMainImage()),
+                [
+                    'link_parameters' => [
+                        'provider' => 'sonata.media.provider.image',
+                        'context'  => 'default',
+                    ],
+                    'admin_code' => 'admin.media'
+                ]
+            )
+            ->end();
+    }
+
     private function buildHomePageForm(FormMapper $form)
     {
         $form
@@ -176,7 +213,8 @@ class PageAdmin extends BaseAdmin
                 'format_field'           => 'contentFormatter',
                 'ckeditor_context'       => 'default',
                 'source_field'           => 'rawContent',
-                'target_field'           => 'content'
+                'target_field'           => 'content',
+                'ckeditor_toolbar_icons' => $this->getCkEditorToolbarIcons()
             ])
             ->add('numberOfNews')
             ->add(
@@ -188,6 +226,7 @@ class PageAdmin extends BaseAdmin
                         'provider' => 'sonata.media.provider.image',
                         'context'  => 'default',
                     ],
+                    'admin_code' => 'admin.media'
                 ]
             )
             ->end();
@@ -213,6 +252,7 @@ class PageAdmin extends BaseAdmin
                         'provider' => 'sonata.media.provider.image',
                         'context'  => 'default',
                     ],
+                    'admin_code' => 'admin.media'
                 ]
             )
             ->end();
@@ -231,11 +271,14 @@ class PageAdmin extends BaseAdmin
                 'format_field'           => 'contentFormatter',
                 'ckeditor_context'       => 'default',
                 'source_field'           => 'rawContent',
-                'target_field'           => 'content'
+                'target_field'           => 'content',
+                'ckeditor_toolbar_icons' => $this->getCkEditorToolbarIcons()
             ])
             ->add('galleries', ModelType::class, [
                 'required' => false,
                 'multiple' => true
+            ], [
+                'admin_code' => 'admin.gallery'
             ])
             ->add(
                 'mainImage',
@@ -246,6 +289,7 @@ class PageAdmin extends BaseAdmin
                         'provider' => 'sonata.media.provider.image',
                         'context'  => 'default',
                     ],
+                    'admin_code' => 'admin.media'
                 ]
             )
             ->end();
@@ -264,7 +308,8 @@ class PageAdmin extends BaseAdmin
                 'format_field'           => 'contentFormatter',
                 'ckeditor_context'       => 'default',
                 'source_field'           => 'rawContent',
-                'target_field'           => 'content'
+                'target_field'           => 'content',
+                'ckeditor_toolbar_icons' => $this->getCkEditorToolbarIcons()
             ])
             ->add('events', ModelType::class, [
                 'required' => false,
@@ -280,6 +325,7 @@ class PageAdmin extends BaseAdmin
                         'provider' => 'sonata.media.provider.image',
                         'context'  => 'default',
                     ],
+                    'admin_code' => 'admin.media'
                 ]
             )
             ->end();
@@ -298,7 +344,8 @@ class PageAdmin extends BaseAdmin
                 'format_field'           => 'contentFormatter',
                 'ckeditor_context'       => 'default',
                 'source_field'           => 'rawContent',
-                'target_field'           => 'content'
+                'target_field'           => 'content',
+                'ckeditor_toolbar_icons' => $this->getCkEditorToolbarIcons()
             ])
             ->add('members', ModelType::class, [
                 'required' => false,
@@ -314,6 +361,7 @@ class PageAdmin extends BaseAdmin
                         'provider' => 'sonata.media.provider.image',
                         'context'  => 'default',
                     ],
+                    'admin_code' => 'admin.media'
                 ]
             )
             ->end();
@@ -332,7 +380,8 @@ class PageAdmin extends BaseAdmin
                 'format_field'           => 'contentFormatter',
                 'ckeditor_context'       => 'default',
                 'source_field'           => 'rawContent',
-                'target_field'           => 'content'
+                'target_field'           => 'content',
+                'ckeditor_toolbar_icons' => $this->getCkEditorToolbarIcons()
             ])
             ->add(
                 'mainImage',
@@ -343,6 +392,7 @@ class PageAdmin extends BaseAdmin
                         'provider' => 'sonata.media.provider.image',
                         'context'  => 'default',
                     ],
+                    'admin_code' => 'admin.media'
                 ]
             )
             ->end();

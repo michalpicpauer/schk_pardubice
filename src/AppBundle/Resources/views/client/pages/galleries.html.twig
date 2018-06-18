@@ -17,9 +17,18 @@
                 </div>
             </div>
         </div>
+        {% if page.content is not empty %}
+            <div class="row">
+                <div class="col-md-12 mx-auto my-3">
+                    <div class="text-box box-shadow">
+                        {{ page.content|raw }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
         <div class="row posts">
             {% for gallery in page.galleries %}
-                <div class="col-md-4">
+                <div class="col-md-4 my-3">
                     <div class="post-preview box-shadow">
                         <a href="{{ path('gallery', {'slug':gallery.slug}) }}">
                             <div class="post-image"

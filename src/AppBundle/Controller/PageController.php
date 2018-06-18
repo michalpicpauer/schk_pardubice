@@ -72,6 +72,10 @@ class PageController extends Controller
      */
     public function renderPageAction(string $slug)
     {
+        if ($slug === 'admin') {
+            return $this->redirectToRoute('sonata_admin_dashboard');
+        }
+
         $page = $this->pageManager->getPage($slug);
 
         if ($page == null) {

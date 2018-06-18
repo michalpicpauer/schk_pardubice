@@ -1,0 +1,14 @@
+.sonata-ba-field-widget-help img {
+    max-height: 50px;
+    max-width: 100px;
+}
+
+.sonata-ba-field-widget-help {
+    display: inline-block;
+    float: left;
+    margin: 0 15px 0 0;
+}
+
+div.mosaic-inner-box {
+    height: auto;
+}

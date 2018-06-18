@@ -78,10 +78,10 @@ class UserAdmin extends BaseUserAdmin
             ->end();
     }
 
-    protected function configureFormFields(FormMapper $formMapper): void
+    protected function configureFormFields(FormMapper $form): void
     {
         // define group zoning
-        $formMapper
+        $form
             ->tab('User')
             ->with('Profile', array('class' => 'col-md-6'))->end()
             ->with('General', array('class' => 'col-md-6'))->end()
@@ -116,7 +116,7 @@ class UserAdmin extends BaseUserAdmin
             $securityRolesType = 'sonata_security_roles';
         }
 
-        $formMapper
+        $form
             ->tab('User')
             ->with('General')
             ->add('username')

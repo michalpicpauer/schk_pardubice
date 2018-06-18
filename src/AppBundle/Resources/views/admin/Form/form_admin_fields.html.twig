@@ -1,0 +1,182 @@
+{% block gallery_item_multi_upload_widget %}
+    {% set admin = form.vars.sonata_admin.admin %}
+    <div id="field_container_{{ id }}" class="field-container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="box box-solid">
+                    <div id="dm_uploader_{{ id }}" class="dm-uploader p-5 text-center" style="height: 300px;">
+                        <h3 class="mb-5 mt-5 text-muted" style="margin-top:75px;">
+                            <span class="mb-5">{{ 'drag_and_drop'|trans({}, 'AppBundle') }}</span>
+                        </h3>
+                        <div class="btn btn-primary btn-sm" style="margin-top: 20px;">
+                            <span>{{ 'open_filebrowser'|trans({}, 'AppBundle') }}</span>
+                            <input type="file" id="multi_upload_binaryContent" name="multi_upload[binaryContent]" multiple="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="box box-solid">
+                    <ul class="list-group list-unstyled" id="files" style="height: 300px; overflow: auto;">
+                        {% for d in data %}
+                            <li class="list-group-item" id="media_{{ d.media.id }}" data-item="{{ d.id }}" data-media="{{ d.media.id }}">
+                                <div class="media-body mb-1">
+                                    <div class="col-md-4 col-xs-4">
+                                        <canvas class="image"
+                                                style="background-image: url('{% path d.media, 'small' %}');
+                                                        background-size: contain;
+                                                        background-position: center;
+                                                        background-repeat: no-repeat;
+                                                        width: 100%;
+                                                        height: 80px; ">
+                                        </canvas>
+                                    </div>
+                                    <div class="col-md-8 col-xs-8">
+                                        <p class="mb-2">
+                                            <strong class="media-name">
+                                                {{ d.media.name }}
+                                            </strong>
+                                        </p>
+                                    </div>
+                                    <a data-remove="media_{{ d.media.id }}" title="Odebrat" class="btn btn-sm btn-danger image-remove"><i class="fa fa-remove"></i></a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" {{ block('widget_attributes') }}
+                {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    </div>
+
+    <script>
+        $(function () {
+            $('#dm_uploader_{{ id }}').dmUploader({
+                url: '{{ admin.generateUrl('multi_upload') }}',
+                maxFileSize: 30000000000,
+                onDragEnter: function () {
+                    $(this).css({'background-color': 'lightgray'});
+                },
+                onDragLeave: function () {
+                    $(this).css({'background-color': '#ffffff'});
+                },
+                onNewFile: function (id, file) {
+                    addFile(id, file);
+                },
+                onBeforeUpload: function (id) {
+                    setStatus(id, 'uploading', '{{ 'uploading'|trans({}, 'AppBundle') }}...');
+                    setProgress(id, 0, '', true);
+                },
+                onUploadCanceled: function (id) {
+                    setStatus(id, 'warning', '{{ 'canceled'|trans({}, 'AppBundle') }}');
+                    setProgress(id, 0, 'warning', false);
+                },
+                onUploadProgress: function (id, percent) {
+                    setProgress(id, percent);
+                },
+                onUploadSuccess: function (id, data) {
+                    setStatus(id, 'success', '{{ 'upload_complete'|trans({}, 'AppBundle') }}');
+                    setProgress(id, 100, 'success', false);
+                    setImage(id, data.path);
+                    $('#uploaderFile' + id).data('media', data.mediaId);
+                    setValue();
+                },
+                onUploadError: function (id, xhr, status, message) {
+                    setStatus(id, 'danger', message);
+                    setProgress(id, 0, 'danger', false);
+                }
+            });
+
+            $('.image-remove').click(function (e) {
+                e.preventDefault();
+                var id = $(this).data('remove');
+                console.log(id);
+                removeFile(id);
+            })
+        });
+
+        function addFile(id, file) {
+            var template = $('#files-template').text();
+            var $template = $(template);
+            $template.find('strong').text(file.name);
+            $template.prop('id', 'uploaderFile' + id);
+            $template.data('media', file.id);
+            $template.find('button.image-remove').data('remove', 'uploaderFile' + id);
+            $template.data('file-id', id);
+
+            $('#files').prepend($template);
+        }
+
+        function removeFile(id) {
+            console.log($('#' + id));
+            $('#' + id).remove();
+            setValue();
+        }
+
+        function setStatus(id, status, message) {
+            $('#uploaderFile' + id).find('span').html(message).prop('class', 'status text-' + status);
+        }
+
+        function setImage(id, path) {
+            $('#uploaderFile' + id).find('canvas').css('background-image', "url('" + path + "')");
+        }
+
+        function setProgress(id, percent, color, active) {
+            color = (typeof color === 'undefined' ? false : color);
+            active = (typeof active === 'undefined' ? true : active);
+
+            var bar = $('#uploaderFile' + id).find('div.progress-bar');
+
+            bar.width(percent + '%').attr('aria-valuenow', percent);
+            bar.toggleClass('progress-bar-striped progress-bar-animated', active);
+
+            if (percent === 0) {
+                bar.html('');
+            } else {
+                bar.html(percent + '%');
+            }
+
+            if (color !== false) {
+                bar.removeClass('bg-success bg-info bg-warning bg-danger');
+                bar.addClass('bg-' + color);
+            }
+        }
+
+        function setValue() {
+            var data = {};
+            $('#files li').each(function (index) {
+                // var id = parseInt($(this).attr('id').substring(7));
+                var mediaId = $(this).data('media');
+                var itemId = $(this).data('item');
+
+                data[mediaId] = itemId ? itemId : 'unknown';
+            });
+            $('#{{ form.vars.id }}').val(JSON.stringify(data));
+        }
+    </script>
+
+    <script type="text/html" id="files-template">
+        <li class="list-group-item">
+            <div class="media-body mb-1">
+                <div class="col-xs-4">
+                    <canvas width="100%" height="100%"
+                            style="background-size: contain; background-position: center; background-repeat: no-repeat; width: 100%; height: 80px; "></canvas>
+                </div>
+                <div class="col-xs-8">
+                    <p class="mb-2">
+                        <strong>
+                        </strong> - {{ 'status'|trans({}, 'AppBundle') }}:
+                        <span class="text-muted">{{ 'waiting'|trans({}, 'AppBundle') }}</span>
+                    </p>
+                    <div class="progress mb-2">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+                             role="progressbar"
+                             style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+                <a class="btn btn-sm btn-danger image-remove" title="Odebrat"><i class="fa fa-remove"></i></a>
+            </div>
+        </li>
+    </script>
+{% endblock gallery_item_multi_upload_widget %}

@@ -20,7 +20,7 @@ services:
         resource: '../../src/AppBundle/*'
         # you can exclude directories or files
         # but if a service is unused, it's removed anyway
-        exclude: '../../src/AppBundle/{Entity,Repository,Tests}'
+        exclude: '../../src/AppBundle/{Entity,Repository,Tests,Provider}'
 
     # controllers are imported separately to make sure they're public
     # and have a tag that allows actions to type-hint services
@@ -34,10 +34,38 @@ services:
     #     arguments:
     #         $someArgument: 'some_value'
 
+    AppBundle\Controller\MediaAdminController:
+        arguments: ['@sonata.media.manager.media']
+        public: true
+
+    AppBundle\Controller\GalleryAdminController:
+        arguments: ['@sonata.media.manager.media']
+        public: true
+
     AppBundle\Manager\PostManager:
         class: AppBundle\Manager\PostManager
         arguments:
             $postManager: '@sonata.news.manager.post'
+# Form
+    AppBundle\Form\Type\MultiUploadType:
+        tags:
+            - { name: form.type }
+
+    AppBundle\Form\Type\GalleryItemMultiUploadType:
+        tags:
+            - { name: form.type }
+
+    app.provider.image:
+        class: AppBundle\Provider\ImageProvider
+        parent: sonata.media.provider.image
+        public: true
+        autowire: false
+        autoconfigure: false
+        calls:
+            - [ setName, ['app.provider.image']]
+            - [ setMultiUpload, [true]]
+        tags:
+            - { name: sonata.media.provider }
 
     # Sonata Admin
     admin.page:
@@ -67,7 +95,7 @@ services:
 
     admin.media:
         class: AppBundle\Admin\MediaAdmin
-        arguments: [null, AppBundle\Entity\Media,null , '@sonata.media.pool']
+        arguments: [null, AppBundle\Entity\Media, AppBundle\Controller\MediaAdminController, '@sonata.media.pool']
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin.group.media, label: Media }
         calls:
@@ -75,9 +103,17 @@ services:
 
     admin.gallery:
         class: AppBundle\Admin\GalleryAdmin
-        arguments: [null, AppBundle\Entity\Gallery,null , '@sonata.media.pool']
+        arguments: [null, AppBundle\Entity\Gallery, AppBundle\Controller\GalleryAdminController, '@sonata.media.pool']
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin.group.media, label: Gallery }
+        calls:
+            - [ setTranslationDomain, [AppMediaBundle]]
+
+    admin.gallery_has_media:
+        class: AppBundle\Admin\GalleryHasMediaAdmin
+        arguments: [null, AppBundle\Entity\GalleryItem,null , '@sonata.media.pool']
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin.group.media, label: GalleryHasMedia }
         calls:
             - [ setTranslationDomain, [AppMediaBundle]]
 

@@ -113,6 +113,18 @@
                 <source>Galleries</source>
                 <target>Galerie</target>
             </trans-unit>
+            <trans-unit id="28">
+                <source>Members</source>
+                <target>Členi</target>
+            </trans-unit>
+            <trans-unit id="29">
+                <source>Posts page</source>
+                <target>Stránka se seznamem příspěvků</target>
+            </trans-unit>
+            <trans-unit id="30">
+                <source>Collections</source>
+                <target>Kolekce</target>
+            </trans-unit>
 
         </body>
     </file>

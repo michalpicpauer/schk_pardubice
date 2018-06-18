@@ -1,28 +1,32 @@
 {% block navigation %}
-    <div class="nav-placeholder"></div>
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
         <div class="container">
             <!-- todo logo here -->
-            {#<a class="navbar-brand" href="{{ path('homepage') }}"><img src="{{ asset('img/vectorpaint.png') }}"></a>#}
-            <a class="navbar-brand" href="{{ path('homepage') }}">SCHK Pardubice</a>
-
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                    data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                Menu
-                <i class="fa fa-bars"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('homepage') }}">Domů</a>
-                    </li>
-                    {% for page in pages %}
+            <div class="navbar-brand">
+                <a href="{{ path('homepage') }}"><img
+                            src="{{ asset('bundles/app/images/schk_so_pardubice_logo_white.svg') }}"></a>
+                {#<a class="navbar-brand" href="{{ path('homepage') }}">SCHK Pardubice</a>#}
+            </div>
+            <div class="navigation">
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                        data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    Menu
+                    <i class="fa fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('renderPage', {'slug': page.slug}) }}">{{ page.name }}</a>
+                            <a class="nav-link" href="{{ path('homepage') }}">Domů</a>
                         </li>
-                    {% endfor %}
-                </ul>
+                        {% for page in pages %}
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   href="{{ path('renderPage', {'slug': page.slug}) }}">{{ page.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>

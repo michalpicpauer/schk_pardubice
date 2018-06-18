@@ -29,11 +29,11 @@ abstract class BaseAdmin extends AbstractAdmin
 
     protected function getImageFieldOptions($image)
     {
-        $fileFieldOptions = ['required' => false];
+        $fileFieldOptions = ['required' => false, 'btn_edit' => false];
         if ($image) {
             $container = $this->getConfigurationPool()->getContainer();
             $pr = $container->get('sonata.media.provider.image');
-            $fileFieldOptions = ['required' => false];
+            $fileFieldOptions = ['required' => false, 'btn_edit' => false];
             if ($webPath = $pr->generatePublicUrl($image, 'admin')) {
                 $fileFieldOptions['help'] = '<img src="' . $webPath . '" class="admin-preview" />';
             }

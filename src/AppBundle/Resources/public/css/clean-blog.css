@@ -6,7 +6,7 @@
 body {
     font-size: 20px;
     color: #212529;
-    font-family: 'Lora', 'Times New Roman', serif;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 p {
@@ -29,7 +29,7 @@ h6 {
 }
 
 a {
-    color: #212529;
+    color: #d73d7e;
     -webkit-transition: all 0.2s;
     -moz-transition: all 0.2s;
     transition: all 0.2s;
@@ -92,29 +92,30 @@ form {
     background-color: #fff;
 }
 
-.nav-placeholder {
-    display: block;
-    position: absolute;
-    background-color: #282a2b;
-    border-bottom: 1px solid #4b4c4d;
-    height: 57px;
-    width: 100%;
-}
-
 #mainNav {
     position: absolute;
-    background-color: #282a2b;
-    border-bottom: 1px solid #4b4c4d;
+    top: 0;
+    min-height: 90px;
+    background: -moz-linear-gradient(top, #98164c 0%,#d73d7e 100%);
+    background: -webkit-linear-gradient(top, #98164c 0%,#d73d7e 100%);
+    background: linear-gradient(to bottom, #8f1548 0%, #d73d7e 100%);
+    /*border-bottom: 1px solid #4b4c4d;*/
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 #mainNav .navbar-brand {
     color: #ffffff;
+    position: relative;
+
+    height: 86px;
+    width: 105px;
+    z-index: 10;
+    top: 0;
     font-style: oblique;
 }
-#mainNav .navbar-brand > img {
+#mainNav .navbar-brand > a > img {
     display: block;
     position: absolute;
-    height: 80px;
+    height: 100%;
     top: 0;
 }
 
@@ -131,7 +132,7 @@ form {
     font-weight: 800;
     letter-spacing: 1px;
     text-transform: uppercase;
-    color: #9ea7af;
+    color: #fff;
     text-align: right;
 }
 
@@ -140,67 +141,12 @@ form {
         border-bottom: 1px solid transparent;
     }
 
-    #mainNav .navbar-brand > img {
-        display: block;
-        position: absolute;
-        height: 80px;
-        top: 0;
-    }
-
     #mainNav .navbar-nav > li.nav-item > a {
-        padding: 10px 20px;
-        color: #9ea7af;
+        padding: 10px 10px;
     }
 
     #mainNav .navbar-nav > li.nav-item > a:focus, #mainNav .navbar-nav > li.nav-item > a:hover {
-        color: rgba(215, 61, 126, 0.8);
-    }
-}
-
-@media only screen and (min-width: 992px) {
-    #mainNav {
-        -webkit-transition: background-color 0.2s;
-        -moz-transition: background-color 0.2s;
-        transition: background-color 0.2s;
-        /* Force Hardware Acceleration in WebKit */
-        -webkit-transform: translate3d(0, 0, 0);
-        -moz-transform: translate3d(0, 0, 0);
-        -ms-transform: translate3d(0, 0, 0);
-        -o-transform: translate3d(0, 0, 0);
-        transform: translate3d(0, 0, 0);
-        -webkit-backface-visibility: hidden;
-    }
-
-    #mainNav.is-fixed {
-        /* when the user scrolls down, we hide the header right above the viewport */
-        position: fixed;
-        top: -57px;
-        -webkit-transition: -webkit-transform 0.2s;
-        -moz-transition: -moz-transform 0.2s;
-        transition: transform 0.2s;
-        border-bottom: 1px solid #4b4c4d;
-        background-color: rgba(40, 42, 43, 0.6);
-    }
-
-    #mainNav.is-fixed .navbar-brand > img {
-        height: 55px;
-    }
-
-    #mainNav.is-fixed .navbar-nav > li.nav-item > a {
-        color: #9ea7af;
-    }
-
-    #mainNav.is-fixed .navbar-nav > li.nav-item > a:focus, #mainNav.is-fixed .navbar-nav > li.nav-item > a:hover {
-        color: #d73d7e;
-    }
-
-    #mainNav.is-visible {
-        /* if the user changes the scrolling direction, we show the header */
-        -webkit-transform: translate3d(0, 100%, 0);
-        -moz-transform: translate3d(0, 100%, 0);
-        -ms-transform: translate3d(0, 100%, 0);
-        -o-transform: translate3d(0, 100%, 0);
-        transform: translate3d(0, 100%, 0);
+        color: rgba(207, 207, 207, 0.8);
     }
 }
 
@@ -331,7 +277,7 @@ header.masthead .post-heading .meta a {
 
 .text-box {
     background: #ffffff;
-    padding: 5px 25px;
+    padding: 20px 25px;
     margin: 20px 0;
 }
 
@@ -343,8 +289,8 @@ header.masthead .post-heading .meta a {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    height: 300px;
-    margin-top: 55px;
+    height: 320px;
+    margin-top: 100px;
 }
 
 .page-image .site-heading {
@@ -523,6 +469,9 @@ form .form-group:first-child .floating-label-form-group {
 }
 
 footer {
+    position: relative;
+    height: 150px;
+    margin-top: -150px;
     background-color: #282a2b;
     border-color: #4b4c4d;
     border-top-width: 1px;
@@ -737,4 +686,21 @@ footer .copyright {
     .right {
         left: 0%;
     }
+}
+
+.main-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.main-content {
+    position: relative;
+    width: 100%;
+    min-height: 100%;
+    padding-bottom: 150px;
+}
+
+.navbar>.container {
+    align-items: flex-end;
 }

@@ -16,11 +16,12 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class GalleryHasMediaAdmin extends Admin
 {
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
         $link_parameters = [];
 
@@ -36,11 +37,15 @@ class GalleryHasMediaAdmin extends Admin
             }
         }
 
-        $formMapper
-            ->add('media', ModelListType::class, ['required' => false], [
-                'link_parameters' => $link_parameters,
+        $media = null;
+        if ($this->getSubject()) {
+            $media = $this->getSubject()->getMedia();
+        }
+
+        $form
+            ->add('media', ModelListType::class, $this->getImageFieldOptions($media), [
+                'link_parameters' => $link_parameters, 'admin_code' => 'admin.media',
             ])
-            ->add('enabled', null, ['required' => false])
             ->add('position', HiddenType::class)
         ;
     }
@@ -51,7 +56,21 @@ class GalleryHasMediaAdmin extends Admin
             ->add('media')
             ->add('gallery')
             ->add('position')
-            ->add('enabled')
         ;
+    }
+
+    protected function getImageFieldOptions($image)
+    {
+        $fileFieldOptions = ['required' => false, 'btn_edit' => false];
+        if ($image) {
+            $container = $this->getConfigurationPool()->getContainer();
+            $pr = $container->get('sonata.media.provider.image');
+            $fileFieldOptions = ['required' => false, 'btn_edit' => false];
+            if ($webPath = $pr->generatePublicUrl($image, 'admin')) {
+                $fileFieldOptions['sonata_help'] = '<img src="' . $webPath . '" class="admin-preview" />';
+            }
+        }
+
+        return $fileFieldOptions;
     }
 }
